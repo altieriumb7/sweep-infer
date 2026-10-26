@@ -195,20 +195,21 @@ class WOSSAttention(nn.Module):
 def fold_rmsnorm_affine(
     linear_weight: torch.Tensor,
     norm_weight: torch.Tensor,
+    has_unit_offset: bool = False,
 ) -> torch.Tensor:
     """
     Absorbs the affine gain gamma of RMSNorm into an adjacent weight matrix.
     
-    For y = (x * norm_weight) @ linear_weight.T, where linear_weight is [out_features, in_features]
-    and norm_weight is [in_features], scales input columns:
-        W_folded = linear_weight * norm_weight.view(1, -1)
+    Supports standard RMSNorm (LLaMA, Qwen, Mistral: y = x * norm_weight) and
+    Gemma 2 unit-offset RMSNorm (Gemma: y = x * (1.0 + norm_weight)).
     """
     if linear_weight.dim() != 2:
         raise ValueError("linear_weight must be a 2D matrix")
     in_features = linear_weight.size(1)
     if norm_weight.numel() != in_features:
         raise ValueError(f"norm_weight size {norm_weight.numel()} must match linear in_features {in_features}")
-    return linear_weight * norm_weight.view(1, -1)
+    effective_scale = (1.0 + norm_weight) if has_unit_offset else norm_weight
+    return linear_weight * effective_scale.view(1, -1)
 
 
 class OptimalBrainSpiking:

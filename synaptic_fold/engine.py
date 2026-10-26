@@ -44,10 +44,13 @@ class GenerationOutput:
 
 class InPlaceReservoirCache:
     """
-    In-Place Relaxation KV-Cache.
+    In-Place Relaxation KV-Cache with Universal GQA & MHA Support.
     
     Prevents cache length dilation during recurrent attractor loops:
     micro-steps overwrite the current token slot in-place.
+    
+    Supports both Multi-Head Attention (num_heads == num_kv_heads) and
+    Grouped-Query Attention (GQA, e.g. LLaMA-3, Mistral, Qwen 2.5, Gemma 2, DeepSeek).
     """
 
     def __init__(
@@ -56,23 +59,25 @@ class InPlaceReservoirCache:
         num_layers: int,
         num_heads: int,
         head_dim: int,
+        num_kv_heads: Optional[int] = None,
         device: str = "cpu",
         dtype: torch.dtype = torch.bfloat16,
     ):
         self.max_seq_len = max_seq_len
         self.num_layers = num_layers
         self.num_heads = num_heads
+        self.num_kv_heads = num_kv_heads if num_kv_heads is not None else num_heads
         self.head_dim = head_dim
         self.device = device
         self.dtype = dtype
 
         self.k_cache = torch.zeros(
-            (num_layers, 1, num_heads, max_seq_len, head_dim),
+            (num_layers, 1, self.num_kv_heads, max_seq_len, head_dim),
             device=device,
             dtype=dtype,
         )
         self.v_cache = torch.zeros(
-            (num_layers, 1, num_heads, max_seq_len, head_dim),
+            (num_layers, 1, self.num_kv_heads, max_seq_len, head_dim),
             device=device,
             dtype=dtype,
         )
@@ -86,10 +91,21 @@ class InPlaceReservoirCache:
     ):
         """
         Overwrites key and value vectors at self.current_pos in-place.
+        Handles both [b, num_kv_heads, 1, head_dim] and transposed shapes.
         """
-        # k_step: [1, num_heads, 1, head_dim]
-        self.k_cache[layer_idx, :, :, self.current_pos:self.current_pos + 1, :] = k_step
-        self.v_cache[layer_idx, :, :, self.current_pos:self.current_pos + 1, :] = v_step
+        if k_step.dim() == 4:
+            if k_step.size(1) == self.num_kv_heads:
+                self.k_cache[layer_idx, :, :, self.current_pos:self.current_pos + 1, :] = k_step
+                self.v_cache[layer_idx, :, :, self.current_pos:self.current_pos + 1, :] = v_step
+            elif k_step.size(2) == self.num_kv_heads:
+                self.k_cache[layer_idx, :, :, self.current_pos:self.current_pos + 1, :] = k_step.transpose(1, 2)
+                self.v_cache[layer_idx, :, :, self.current_pos:self.current_pos + 1, :] = v_step.transpose(1, 2)
+            else:
+                self.k_cache[layer_idx, :, :, self.current_pos:self.current_pos + 1, :] = k_step
+                self.v_cache[layer_idx, :, :, self.current_pos:self.current_pos + 1, :] = v_step
+        else:
+            self.k_cache[layer_idx, :, :, self.current_pos:self.current_pos + 1, :] = k_step
+            self.v_cache[layer_idx, :, :, self.current_pos:self.current_pos + 1, :] = v_step
 
     def get_context(self, layer_idx: int) -> Tuple[torch.Tensor, torch.Tensor]:
         """
@@ -154,18 +170,36 @@ class SynapticBrainEngine(nn.Module):
         layer: nn.Module,
         hidden_states: torch.Tensor,
         position_embeddings: Optional[Tuple[torch.Tensor, torch.Tensor]] = None,
+        position_ids: Optional[torch.Tensor] = None,
         attention_mask: Optional[torch.Tensor] = None,
+        past_key_values: Optional[Any] = None,
+        use_cache: bool = False,
     ) -> torch.Tensor:
         kwargs = {}
         if position_embeddings is not None:
             kwargs["position_embeddings"] = position_embeddings
+        if position_ids is not None:
+            kwargs["position_ids"] = position_ids
         if attention_mask is not None:
             kwargs["attention_mask"] = attention_mask
+        if past_key_values is not None:
+            kwargs["past_key_values"] = past_key_values
+            kwargs["use_cache"] = use_cache
 
         try:
             out = layer(hidden_states, **kwargs)
         except TypeError:
-            out = layer(hidden_states)
+            # Polymorphic signature adaptation for diverse HuggingFace models
+            if "past_key_values" in kwargs:
+                kwargs["past_key_value"] = kwargs.pop("past_key_values")
+            try:
+                out = layer(hidden_states, **kwargs)
+            except TypeError:
+                try:
+                    kwargs_simple = {k: v for k, v in kwargs.items() if k not in ["position_embeddings", "past_key_value"]}
+                    out = layer(hidden_states, **kwargs_simple)
+                except TypeError:
+                    out = layer(hidden_states)
 
         if isinstance(out, tuple):
             return out[0]
@@ -176,6 +210,7 @@ class SynapticBrainEngine(nn.Module):
         hidden_states: torch.Tensor,
         position_ids: Optional[torch.Tensor] = None,
         attention_mask: Optional[torch.Tensor] = None,
+        cache: Optional[InPlaceReservoirCache] = None,
     ) -> Tuple[torch.Tensor, int, float]:
         seq_len = hidden_states.size(1)
         if position_ids is None and self.rotary_emb is not None:
@@ -183,7 +218,10 @@ class SynapticBrainEngine(nn.Module):
 
         position_embeddings = None
         if self.rotary_emb is not None and position_ids is not None:
-            position_embeddings = self.rotary_emb(hidden_states, position_ids)
+            try:
+                position_embeddings = self.rotary_emb(hidden_states, position_ids)
+            except Exception:
+                position_embeddings = None
 
         # 1. Sensory Compartment
         for layer in self.sensory_layers:
@@ -191,7 +229,9 @@ class SynapticBrainEngine(nn.Module):
                 layer,
                 hidden_states,
                 position_embeddings=position_embeddings,
+                position_ids=position_ids,
                 attention_mask=attention_mask,
+                past_key_values=cache,
             )
 
         # 2. Recurrent Cortical Core with Anti-Collapse Dirichlet Anchor
@@ -206,7 +246,9 @@ class SynapticBrainEngine(nn.Module):
                 self.recurrent_core,
                 current_state,
                 position_embeddings=position_embeddings,
+                position_ids=position_ids,
                 attention_mask=attention_mask,
+                past_key_values=cache,
             )
             residual_diff = core_out - current_state
 
@@ -230,7 +272,9 @@ class SynapticBrainEngine(nn.Module):
                 layer,
                 current_state,
                 position_embeddings=position_embeddings,
+                position_ids=position_ids,
                 attention_mask=attention_mask,
+                past_key_values=cache,
             )
 
         if self.norm_layer is not None:

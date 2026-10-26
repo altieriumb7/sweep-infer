@@ -35,6 +35,9 @@ from .engine import (
     GenerationOutput,
     InPlaceReservoirCache,
 )
+from .adapter import (
+    UniversalModelAdapter,
+)
 
 __version__ = "2.0.0"
 
@@ -60,4 +63,5 @@ __all__ = [
     "SynapticBrainEngine",
     "GenerationOutput",
     "InPlaceReservoirCache",
+    "UniversalModelAdapter",
 ]

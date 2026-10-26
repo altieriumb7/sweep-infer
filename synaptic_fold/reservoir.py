@@ -44,19 +44,28 @@ class GlobalSynapticPool(nn.Module):
     def __init__(
         self,
         k_gate: torch.Tensor,
-        u_up: torch.Tensor,
-        v_down: torch.Tensor,
+        u_up: Optional[torch.Tensor] = None,
+        v_down: Optional[torch.Tensor] = None,
         layer_offsets: Optional[List[int]] = None,
         tau_depth: Optional[torch.Tensor] = None,
+        activation_type: str = "silu",
         device: str = "cpu",
         dtype: torch.dtype = torch.float32,
     ):
         super().__init__()
-        # K: [N, d], U: [N, d], V: [d, N]
+        # K: [N, d], U: [N, d] (optional for non-gated MLPs), V: [d, N]
         self.k_gate = nn.Parameter(k_gate.to(device=device, dtype=dtype), requires_grad=False)
-        self.u_up = nn.Parameter(u_up.to(device=device, dtype=dtype), requires_grad=False)
-        self.v_down = nn.Parameter(v_down.to(device=device, dtype=dtype), requires_grad=False)
+        if u_up is not None:
+            self.u_up = nn.Parameter(u_up.to(device=device, dtype=dtype), requires_grad=False)
+        else:
+            self.u_up = None
 
+        if v_down is not None:
+            self.v_down = nn.Parameter(v_down.to(device=device, dtype=dtype), requires_grad=False)
+        else:
+            self.v_down = None
+
+        self.activation_type = activation_type.lower()
         self.total_synapses = self.k_gate.size(0)
         self.hidden_dim = self.k_gate.size(1)
         self.layer_offsets = layer_offsets
@@ -67,8 +76,20 @@ class GlobalSynapticPool(nn.Module):
 
     @property
     def memory_footprint_mb(self) -> float:
-        bytes_total = (self.k_gate.numel() + self.u_up.numel() + self.v_down.numel()) * self.k_gate.element_size()
-        return bytes_total / (1024 ** 2)
+        total_elements = self.k_gate.numel()
+        if self.u_up is not None:
+            total_elements += self.u_up.numel()
+        if self.v_down is not None:
+            total_elements += self.v_down.numel()
+        return (total_elements * self.k_gate.element_size()) / (1024 ** 2)
+
+    def _apply_activation(self, zk: torch.Tensor) -> torch.Tensor:
+        if self.activation_type in ["gelu", "gelu_new", "gelu_pytorch_tanh", "approximate_gelu"]:
+            return F.gelu(zk, approximate="tanh")
+        elif self.activation_type == "relu":
+            return F.relu(zk)
+        else: # default silu (SwiGLU)
+            return F.silu(zk)
 
     def query_synapses(
         self,
@@ -80,6 +101,7 @@ class GlobalSynapticPool(nn.Module):
     ) -> Tuple[torch.Tensor, float, torch.Tensor]:
         """
         Queries associative memory via Elastic Mobilization and Zero-Scatter Indexed-GEMM.
+        Supports SwiGLU, GeGLU (Gemma), and Standard Non-Gated MLPs (GPT-2, Falcon, NeoX).
         """
         orig_shape = hidden_states.shape
         if hidden_states.dim() == 3:
@@ -91,8 +113,13 @@ class GlobalSynapticPool(nn.Module):
 
         # 1. Concept detector activations
         zk = torch.matmul(h_flat, self.k_gate.t())  # [Tokens, N]
-        zu = torch.matmul(h_flat, self.u_up.t())    # [Tokens, N]
-        act = F.silu(zk) * zu                      # [Tokens, N]
+        gate_act = self._apply_activation(zk)
+
+        if self.u_up is not None:
+            zu = torch.matmul(h_flat, self.u_up.t())  # [Tokens, N]
+            act = gate_act * zu                      # SwiGLU / GeGLU
+        else:
+            act = gate_act                           # Non-Gated (GPT-2, NeoX, Falcon)
 
         n_synapses = self.total_synapses
         abs_act = torch.abs(act)
