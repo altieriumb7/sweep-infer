@@ -1,0 +1,24 @@
+{
+  "7b_layer": {
+    "dense_ms": 50.07,
+    "syn_noise_ms": 20.77,
+    "syn_knee_ms": 251.16,
+    "speedup_noise": 2.41,
+    "speedup_knee": 0.2,
+    "sparsity_noise": 99.4,
+    "sparsity_knee": 63.0,
+    "cos_sim_int4": 0.9936,
+    "cos_sim_syn_noise": 0.3967,
+    "cos_sim_syn_knee": 0.9407
+  },
+  "end_to_end": {
+    "dense_acc": 70.0,
+    "syn_acc": 70.0,
+    "mean_sparsity": 0.7,
+    "avg_dense_latency_ms": 6735.58,
+    "avg_syn_latency_ms": 6122.06,
+    "tok_s_dense": 22.2,
+    "tok_s_syn": 24.4,
+    "total_tokens": 1492
+  }
+}

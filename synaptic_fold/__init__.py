@@ -38,6 +38,17 @@ from .engine import (
 from .adapter import (
     UniversalModelAdapter,
 )
+from .intrinsic import (
+    kneedle_knee_point,
+    donoho_johnstone_threshold,
+    IntrinsicSynapticMLPHook,
+    IntrinsicModelWrapper,
+)
+from .quantized_synaptic import (
+    Int4BlockQuantizer,
+    Int4SynapticLinear,
+    Int4SynapticMLP,
+)
 
 __version__ = "2.0.0"
 
@@ -64,4 +75,11 @@ __all__ = [
     "GenerationOutput",
     "InPlaceReservoirCache",
     "UniversalModelAdapter",
+    "kneedle_knee_point",
+    "donoho_johnstone_threshold",
+    "IntrinsicSynapticMLPHook",
+    "IntrinsicModelWrapper",
+    "Int4BlockQuantizer",
+    "Int4SynapticLinear",
+    "Int4SynapticMLP",
 ]

@@ -17,15 +17,18 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from .intrinsic import kneedle_knee_point, donoho_johnstone_threshold
+
 
 @dataclass
 class ReservoirConfig:
     """
     Configuration parameters for SynapticFold v2 Reservoir.
     """
-    sparsity_mode: str = "elastic"      # 'elastic' (dynamic Top-P energy) or 'fixed' (Top-K)
-    p_energy_mass: float = 0.90         # Fraction of total activation energy to preserve
-    active_synapse_ratio: float = 0.30  # Baseline fallback for fixed mode
+    sparsity_mode: str = "intrinsic_knee"  # 'intrinsic_knee', 'intrinsic_noise', 'elastic', or 'fixed'
+    p_energy_mass: float = 0.85            # Used if sparsity_mode == 'elastic'
+    active_synapse_ratio: float = 0.30     # Baseline fallback for fixed mode
+    min_active_pct: float = 0.01          # Minimum physiological active fraction
     spike_threshold: float = 0.0
     attractor_steps: int = 3
     attractor_gamma: float = 0.35
@@ -124,8 +127,23 @@ class GlobalSynapticPool(nn.Module):
         n_synapses = self.total_synapses
         abs_act = torch.abs(act)
 
-        # 2. Elastic Synaptic Mobilization vs Fixed Top-K
-        if sparsity_mode == "elastic":
+        # 2. Dynamic Synaptic Mobilization (Intrinsic vs Elastic vs Fixed)
+        if sparsity_mode in ["intrinsic_knee", "knee"]:
+            mask = kneedle_knee_point(abs_act, min_pct=0.01)
+            active_counts = mask.sum(dim=-1)
+            k_active = max(1, min(n_synapses, int(active_counts.max().item())))
+            # Rank by magnitude to keep top k_active indices aligned
+            sorted_vals, sorted_indices = torch.sort(abs_act, dim=-1, descending=True)
+            topk_idx = sorted_indices[:, :k_active]
+            topk_vals = sorted_vals[:, :k_active]
+        elif sparsity_mode in ["intrinsic_noise", "noise"]:
+            mask = donoho_johnstone_threshold(abs_act)
+            active_counts = mask.sum(dim=-1)
+            k_active = max(1, min(n_synapses, int(active_counts.max().item())))
+            sorted_vals, sorted_indices = torch.sort(abs_act, dim=-1, descending=True)
+            topk_idx = sorted_indices[:, :k_active]
+            topk_vals = sorted_vals[:, :k_active]
+        elif sparsity_mode == "elastic":
             # Sort activations to compute cumulative energy spectrum
             sorted_vals, sorted_indices = torch.sort(abs_act, dim=-1, descending=True)
             cumsum = torch.cumsum(sorted_vals, dim=-1)
