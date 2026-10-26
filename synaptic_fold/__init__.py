@@ -49,6 +49,9 @@ from .quantized_synaptic import (
     Int4SynapticLinear,
     Int4SynapticMLP,
 )
+from .native_synaptic import (
+    NativeSynapticMLP,
+)
 
 __version__ = "2.0.0"
 

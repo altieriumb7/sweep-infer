@@ -1,0 +1,25 @@
+{
+  "micro_7b": {
+    "dense_ms": 25.77,
+    "syn_ms": 18.75,
+    "speedup": 1.37,
+    "cos_sim": 0.8397
+  },
+  "micro_05b": {
+    "dense_ms": 1.717,
+    "syn_ms": 1.132,
+    "speedup": 1.52,
+    "cos_sim": 0.8261
+  },
+  "generation": {
+    "avg_dense_ttft_ms": 847.4,
+    "avg_syn_ttft_ms": 746.3,
+    "ttft_speedup": 1.14,
+    "avg_dense_latency_ms": 3653.8,
+    "avg_syn_latency_ms": 3377.7,
+    "avg_dense_tok_s": 8.21,
+    "avg_syn_tok_s": 8.9,
+    "gen_speedup_factor": 1.08,
+    "mean_sparsity": 30.0
+  }
+}
