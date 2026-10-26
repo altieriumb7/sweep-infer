@@ -155,10 +155,15 @@ class WOSSAttention(nn.Module):
         scores = torch.matmul(query, key.transpose(-2, -1)) * scale
 
         if mask is not None:
-            scores = scores + mask
+            if mask.dtype == torch.bool:
+                scores = scores.masked_fill(~mask, float("-inf"))
+            else:
+                scores = scores + mask
 
         max_scores, _ = torch.max(scores, dim=-1, keepdim=True)
-        delta_scores = scores - max_scores  # <= 0
+        # Numerical guard: avoid -inf - (-inf) = NaN on fully masked rows
+        safe_max = torch.where(torch.isneginf(max_scores), torch.zeros_like(max_scores), max_scores)
+        delta_scores = scores - safe_max  # <= 0
 
         # Saliency thresholding in temporal domain
         saliency_mask = delta_scores >= (-self.saliency_threshold)

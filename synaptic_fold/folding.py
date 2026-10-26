@@ -52,39 +52,56 @@ def regmean_merge(
     weights: List[torch.Tensor],
     covariances: List[torch.Tensor],
     damping: float = 1e-4,
+    prefer_diagonal: bool = False,
 ) -> torch.Tensor:
     """
-    Closed-form covariance-weighted weight merging (RegMean v2 with trace damping):
-        W* = (sum_l X_l^T X_l + lambda * I)^(-1) (sum_l X_l^T X_l @ W_l)
+    Closed-form covariance-weighted weight merging (RegMean v2 with trace damping).
+    
+    For PyTorch Linear weights W of shape (d_out, d_in) and input covariances Gamma of shape (d_in, d_in):
+        W* = (sum_l W_l @ Gamma_l) @ (sum_l Gamma_l + lambda * I)^(-1)
+    
+    Automatically switches to O(d_out * d_in) Diagonal RegMean when d_in > 8192 to prevent
+    multi-gigabyte memory allocations and cubic matrix inversion latencies.
     """
     if len(weights) != len(covariances) or len(weights) == 0:
         raise ValueError("Mismatched or empty weight and covariance lists")
 
     device = weights[0].device
+    d_out, d_in = weights[0].shape
     dtype = torch.float32
 
-    accumulated_cov = torch.zeros_like(covariances[0], dtype=dtype, device=device)
-    accumulated_action = torch.zeros(
-        (covariances[0].size(0), weights[0].size(1)),
-        dtype=dtype,
-        device=device,
-    )
+    # High-dimensional fast path (e.g. SwiGLU down_proj with d_in=18944)
+    if d_in > 8192 or prefer_diagonal:
+        accum_diag = torch.zeros(d_in, dtype=dtype, device=device)
+        accum_action = torch.zeros((d_out, d_in), dtype=dtype, device=device)
+        for w, cov in zip(weights, covariances):
+            w_f32 = w.to(dtype=dtype, device=device)
+            cov_diag = torch.diag(cov).to(dtype=dtype, device=device) if cov.dim() == 2 else cov.to(dtype=dtype, device=device)
+            accum_diag += cov_diag
+            accum_action += w_f32 * cov_diag.unsqueeze(0)
+        reg_val = damping * accum_diag.mean()
+        denom = accum_diag.unsqueeze(0) + max(1e-5, reg_val.item())
+        merged = accum_action / denom
+        return merged.to(weights[0].dtype)
+
+    accumulated_cov = torch.zeros((d_in, d_in), dtype=dtype, device=device)
+    accumulated_action = torch.zeros((d_out, d_in), dtype=dtype, device=device)
 
     for w, cov in zip(weights, covariances):
         cov_f32 = cov.to(dtype=dtype, device=device)
         w_f32 = w.to(dtype=dtype, device=device)
         accumulated_cov += cov_f32
-        accumulated_action += torch.matmul(cov_f32, w_f32)
+        accumulated_action += torch.matmul(w_f32, cov_f32)
 
-    dim = accumulated_cov.size(0)
-    trace_damp = damping * (torch.trace(accumulated_cov) / max(1, dim)).item()
-    identity = torch.eye(dim, dtype=dtype, device=device) * max(1e-5, trace_damp)
+    trace_damp = damping * (torch.trace(accumulated_cov) / max(1, d_in)).item()
+    identity = torch.eye(d_in, dtype=dtype, device=device) * max(1e-5, trace_damp)
     regularized_cov = accumulated_cov + identity
 
     try:
-        merged_weight = torch.linalg.solve(regularized_cov, accumulated_action)
+        # Solve: regularized_cov^T @ (W*)^T = accumulated_action^T
+        merged_weight = torch.linalg.solve(regularized_cov.t(), accumulated_action.t()).t()
     except RuntimeError:
-        merged_weight = torch.matmul(torch.linalg.pinv(regularized_cov), accumulated_action)
+        merged_weight = torch.matmul(accumulated_action, torch.linalg.pinv(regularized_cov))
 
     return merged_weight.to(weights[0].dtype)
 

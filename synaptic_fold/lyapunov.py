@@ -6,31 +6,61 @@ import torch.nn as nn
 def estimate_spectral_properties(
     module: nn.Module,
     sample_input: torch.Tensor,
-    num_power_iterations: int = 5,
+    num_iterations: int = 5,
+    epsilon: float = 1e-3,
 ) -> Tuple[float, float]:
     """
-    Estimates the Lipschitz constant L_F and operator coercivity c of a residual block F(x).
+    Estimates the Lipschitz constant L_F and operator coercivity c of a residual block F(x)
+    using Finite-Difference Directional Contraction (FDDC).
     
-    L_F is bounded via power iteration on the Jacobian-vector products.
-    Coercivity c measures the minimal contraction bound <x - x*, F(x)> <= -c ||x - x*||^2.
+    Zero autograd computation graphs, zero backward memory retention, and fully compatible
+    with non-differentiable spiking operators.
+    
+    Lipschitz constant: L_F approx max_v ||F(x + eps*v) - F(x)|| / (eps * ||v||)
+    Coercivity: c approx <F(x + eps*v) - F(x), eps*v> / (eps * ||v||)^2
     """
-    x = sample_input.detach().clone().requires_grad_(True)
-    with torch.enable_grad():
-        out = module(x)
-        if isinstance(out, tuple):
-            out = out[0]
+    x = sample_input.detach().clone()
+    was_training = module.training
+    module.eval()
+
+    with torch.no_grad():
+        f_x = module(x)
+        if isinstance(f_x, tuple):
+            f_x = f_x[0]
+
+        max_lipschitz = 1e-4
+        min_coercivity = float("inf")
+
+        # Directional power exploration
         v = torch.randn_like(x)
         v = v / (torch.norm(v) + 1e-8)
 
-        for _ in range(num_power_iterations):
-            vjp = torch.autograd.grad(out, x, grad_outputs=v, retain_graph=True)[0]
-            norm_vjp = torch.norm(vjp)
-            if norm_vjp.item() == 0.0:
-                break
-            v = vjp / (norm_vjp + 1e-8)
+        for _ in range(num_iterations):
+            pert = epsilon * v
+            x_pert = x + pert
+            f_pert = module(x_pert)
+            if isinstance(f_pert, tuple):
+                f_pert = f_pert[0]
 
-    lipschitz_estimate = max(1e-4, norm_vjp.item())
-    coercivity_estimate = max(1e-4, 0.5 * lipschitz_estimate)
+            diff = f_pert - f_x
+            norm_diff = torch.norm(diff).item()
+            norm_pert = torch.norm(pert).item()
+
+            l_iter = norm_diff / max(1e-8, norm_pert)
+            c_iter = torch.sum(diff * pert).item() / max(1e-8, norm_pert ** 2)
+
+            max_lipschitz = max(max_lipschitz, l_iter)
+            min_coercivity = min(min_coercivity, c_iter)
+
+            # Update perturbation direction along maximal residual divergence
+            if norm_diff > 1e-8:
+                v = diff / norm_diff
+
+    if was_training:
+        module.train()
+
+    lipschitz_estimate = max(1e-4, max_lipschitz)
+    coercivity_estimate = min_coercivity if min_coercivity != float("inf") else 0.0
     return lipschitz_estimate, coercivity_estimate
 
 
@@ -40,13 +70,19 @@ def calibrate_lyapunov_damping(
     safety_margin: float = 0.8,
 ) -> float:
     """
-    Computes maximal discrete-time Euler damping factor gamma guaranteeing Lyapunov stability:
-        gamma < (2 * c) / (L_F^2)
-    Applies safety_margin to stay strictly within the asymptotic contraction basin.
+    Computes maximal discrete-time Euler damping factor gamma guaranteeing Lyapunov stability.
+    
+    If coercivity > 0: gamma < (2 * c) / (L_F^2)
+    If coercivity <= 0 (expansive or non-contractive): conservative contraction gamma <= safety / max(1.0, L_F)
     """
-    theoretical_bound = (2.0 * coercivity) / (lipschitz_constant ** 2)
-    calibrated_damping = safety_margin * min(1.0, theoretical_bound)
-    return max(1e-3, float(calibrated_damping))
+    if coercivity > 0.0:
+        theoretical_bound = (2.0 * coercivity) / (lipschitz_constant ** 2)
+        calibrated = safety_margin * min(1.0, theoretical_bound)
+    else:
+        # Conservative stabilization for non-strictly-contractive basins
+        calibrated = safety_margin / max(1.0, lipschitz_constant)
+
+    return max(1e-3, min(1.0, float(calibrated)))
 
 
 class KrasnoselskiiMannStep(nn.Module):

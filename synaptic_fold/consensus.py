@@ -89,30 +89,37 @@ class AdaptiveConsensusCheck(nn.Module):
         cosine_sim = F.cosine_similarity(v_curr.unsqueeze(0), v_prev.unsqueeze(0)).item()
         directional_stagnation = max(0.0, 1.0 - cosine_sim)
 
-        # 4. Predictive Shannon Entropy Stabilization
-        predictive_entropy = 0.0
-        entropy_delta = 1.0
-
-        if self.unembed_head is not None:
-            with torch.no_grad():
-                h_last = state_curr[:, -1:, :]
-                if self.norm_layer is not None:
-                    h_last = self.norm_layer(h_last)
-                logits = self.unembed_head(h_last)[0, -1, :]
-                probs = F.softmax(logits, dim=-1)
-                log_probs = F.log_softmax(logits, dim=-1)
-                predictive_entropy = -torch.sum(probs * log_probs).item()
-
-                if self.prev_entropy is not None:
-                    entropy_delta = abs(predictive_entropy - self.prev_entropy)
-                self.prev_entropy = predictive_entropy
-
-        # 5. Convergence decision with mandatory patience barrier
+        # 4. Kinematic Stability Evaluation (Zero-Cost Latent Geometry)
         is_kinematically_stable = (
             cauchy_velocity < self.epsilon_velocity
             and trajectory_acceleration < self.epsilon_acceleration
             and directional_stagnation < self.epsilon_angle
         )
+
+        # 5. Deferred Predictive Shannon Entropy Evaluation
+        predictive_entropy = 0.0
+        entropy_delta = 1.0
+
+        if self.unembed_head is not None:
+            # Deferred Evaluation: only project through the 2.18 GB lm_head when latent
+            # trajectory is approaching kinematic consensus or at patience threshold
+            should_evaluate_head = is_kinematically_stable or (current_step >= self.min_patience_steps)
+            if should_evaluate_head:
+                with torch.no_grad():
+                    h_last = state_curr[:, -1:, :]
+                    if self.norm_layer is not None:
+                        h_last = self.norm_layer(h_last)
+                    logits = self.unembed_head(h_last)[0, -1, :]
+                    probs = F.softmax(logits, dim=-1)
+                    log_probs = F.log_softmax(logits, dim=-1)
+                    predictive_entropy = -torch.sum(probs * log_probs).item()
+
+                    if self.prev_entropy is not None:
+                        entropy_delta = abs(predictive_entropy - self.prev_entropy)
+                    self.prev_entropy = predictive_entropy
+            else:
+                entropy_delta = 1.0  # Keep patience active while trajectory is in high acceleration
+
         is_cognitively_stable = (
             self.unembed_head is None or entropy_delta < self.entropy_stability_tau
         )

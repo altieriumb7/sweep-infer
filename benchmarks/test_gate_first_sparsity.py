@@ -58,7 +58,7 @@ def main():
     ]
 
     print("=" * 80, flush=True)
-    print(" GATE-FIRST SYNAPTIC MOBILIZATION BENCHMARK", flush=True)
+    print(" EMPIRICAL TEST: GATE-FIRST PRE-UP PRUNING VS STANDARD TOP-K", flush=True)
     print(f" Prompt length: {seq_len} tokens | Target Active: 5.0% (947 / 18,944 synapses)", flush=True)
     print("=" * 80, flush=True)
 
@@ -82,34 +82,34 @@ def main():
     target_pct = 0.05
     k_target = max(1, int(config.intermediate_size * target_pct))
 
-    for mode in ["standard_topk", "gate_first"]:
-        print(f"\n---> Running mode: {mode} (5% active synapses)...", flush=True)
-        t0 = time.perf_counter()
-        pos_ids = torch.arange(seq_len, dtype=torch.long).unsqueeze(0)
-        h = embed_tokens(input_ids)
-        cos, sin = rotary_emb(h, pos_ids)
-        pos_emb = (cos, sin)
+    pos_ids = torch.arange(seq_len, dtype=torch.long).unsqueeze(0)
+    h_init = embed_tokens(input_ids)
+    cos, sin = rotary_emb(h_init, pos_ids)
+    pos_emb = (cos, sin)
 
-        total_mlp_time = 0.0
-        total_io_time = 0.0
+    modes = ["Standard_TopK_5pct", "GateFirst_PreUp_5pct"]
+    states = {m: h_init.clone() for m in modes}
+    mlp_times = {m: 0.0 for m in modes}
 
-        for l_idx in range(config.num_hidden_layers):
-            t_io = time.perf_counter()
-            load_layer(l_idx)
-            total_io_time += (time.perf_counter() - t_io)
+    for l_idx in range(config.num_hidden_layers):
+        load_layer(l_idx)
 
-            res = h
-            norm_h = layer_buffer.input_layernorm(h)
+        for mode in modes:
+            h_curr = states[mode]
+            # 1. Attention
+            res = h_curr
+            norm_h = layer_buffer.input_layernorm(h_curr)
             attn_out = layer_buffer.self_attn(
                 norm_h, position_embeddings=pos_emb, attention_mask=None, past_key_values=None, use_cache=False
             )[0]
-            h = res + attn_out
+            h_curr = res + attn_out
 
-            t_mlp = time.perf_counter()
-            res = h
-            norm_h2 = layer_buffer.post_attention_layernorm(h)
+            # 2. MLP
+            t_m = time.perf_counter()
+            res = h_curr
+            norm_h2 = layer_buffer.post_attention_layernorm(h_curr)
 
-            if mode == "standard_topk":
+            if mode == "Standard_TopK_5pct":
                 zk = F.linear(norm_h2, layer_buffer.mlp.gate_proj.weight)
                 zu = F.linear(norm_h2, layer_buffer.mlp.up_proj.weight)
                 act = F.silu(zk) * zu
@@ -118,32 +118,38 @@ def main():
                 sparse_act = torch.zeros_like(act)
                 sparse_act.scatter_(-1, topk_idx, gathered_act)
                 mlp_out = F.linear(sparse_act, layer_buffer.mlp.down_proj.weight)
-            else: # gate_first
-                # 1. Gate projection ONLY
+            else: # GateFirst_PreUp_5pct
+                # Biological Pre-Synaptic Gate Routing:
                 zk = F.linear(norm_h2, layer_buffer.mlp.gate_proj.weight)
                 gate_act = F.silu(zk)
-                # 2. Select top-k purely from gate activation
+                # Select active concept synapses purely from pre-synaptic dendritic gate
                 topk_vals, topk_idx = torch.topk(torch.abs(gate_act), k=k_target, dim=-1)
                 
-                # 3. For the last token (and prefill), evaluate only active up_proj synapses:
-                # In vectorized form across sequence:
+                # Saliency gated Up-projection (only active synapses are non-zero)
                 sparse_gate = torch.zeros_like(zk)
                 gathered_gate = torch.gather(gate_act, -1, topk_idx)
                 sparse_gate.scatter_(-1, topk_idx, gathered_gate)
-                
-                # Compute Up projection
+
                 zu = F.linear(norm_h2, layer_buffer.mlp.up_proj.weight)
                 act = sparse_gate * zu
                 mlp_out = F.linear(act, layer_buffer.mlp.down_proj.weight)
 
-            total_mlp_time += (time.perf_counter() - t_mlp)
-            h = res + mlp_out
+            mlp_times[mode] += (time.perf_counter() - t_m)
+            states[mode] = res + mlp_out
 
-            if l_idx % 4 == 0:
-                ctypes.windll.psapi.EmptyWorkingSet(ctypes.windll.kernel32.GetCurrentProcess())
+        if (l_idx + 1) % 7 == 0:
+            print(f"  Processed Layer {l_idx+1:02d}/28...", flush=True)
 
-        final_h = h[:, -1:, :]
-        norm_final = norm(final_h)
+        if l_idx % 4 == 0:
+            ctypes.windll.psapi.EmptyWorkingSet(ctypes.windll.kernel32.GetCurrentProcess())
+
+    print("\n" + "=" * 80, flush=True)
+    print(" EMPIRICAL RESULTS: GATE-FIRST REPRESENTATION COMPARISON", flush=True)
+    print("=" * 80, flush=True)
+
+    for mode in modes:
+        h_final = states[mode][:, -1:, :]
+        norm_final = norm(h_final)
         logits = lm_head(norm_final)[0, -1, :].to(torch.float32)
 
         top1_id = torch.argmax(logits).item()
@@ -153,13 +159,11 @@ def main():
         no_logits = torch.stack([logits[tid] for tid in no_tokens])
         lse_yes = torch.logsumexp(yes_logits, dim=0).item() + 4.50
         lse_no = torch.logsumexp(no_logits, dim=0).item()
-        pred = lse_yes > lse_no
-        margin = abs(lse_yes - lse_no)
-        elapsed = time.perf_counter() - t0
+        pred = (lse_yes > lse_no)
+        margin = lse_yes - lse_no
+        status = "CORRECT" if pred == item["answer"] else "WRONG"
 
-        print(f"  [{mode}] Pred: {pred} (Target: {item['answer']}) -> {'CORRECT' if pred == item['answer'] else 'WRONG'}", flush=True)
-        print(f"  [{mode}] Margine LogSumExp: +{margin:.2f} (Top-1: {repr(top1_tok)})", flush=True)
-        print(f"  [{mode}] Tempo Totale: {elapsed:.2f}s | MLP Compute: {total_mlp_time:.2f}s | Disk I/O: {total_io_time:.2f}s", flush=True)
+        print(f"Mode: {mode:<25} | Pred: {str(pred):<5} | Status: {status:<7} | Margin: {margin:>+6.2f} | Top-1: {repr(top1_tok):<8} | MLP Time: {mlp_times[mode]:.2f}s", flush=True)
 
 if __name__ == "__main__":
     main()
