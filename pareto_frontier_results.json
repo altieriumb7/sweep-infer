@@ -1,0 +1,74 @@
+[
+  {
+    "regime": "10.0% Active",
+    "avg_active_synapses": 1894.0,
+    "avg_pct": 9.997888513513512,
+    "min_synapses": 1894,
+    "max_synapses": 1894,
+    "pred": true,
+    "correct": true,
+    "margin": 5.866931915283203,
+    "top1_token": "Yes",
+    "mlp_time_s": 29.764819999225438
+  },
+  {
+    "regime": "5.0% Active",
+    "avg_active_synapses": 947.0,
+    "avg_pct": 4.998944256756756,
+    "min_synapses": 947,
+    "max_synapses": 947,
+    "pred": true,
+    "correct": true,
+    "margin": 3.768439292907715,
+    "top1_token": "The",
+    "mlp_time_s": 25.542823399882764
+  },
+  {
+    "regime": "3.0% Active",
+    "avg_active_synapses": 568.0,
+    "avg_pct": 2.9983108108108105,
+    "min_synapses": 568,
+    "max_synapses": 568,
+    "pred": true,
+    "correct": true,
+    "margin": 4.344061374664307,
+    "top1_token": " ",
+    "mlp_time_s": 25.083887700922787
+  },
+  {
+    "regime": "2.0% Active",
+    "avg_active_synapses": 378.0,
+    "avg_pct": 1.9953547297297296,
+    "min_synapses": 378,
+    "max_synapses": 378,
+    "pred": true,
+    "correct": true,
+    "margin": 4.265075445175171,
+    "top1_token": " in",
+    "mlp_time_s": 24.712921399390325
+  },
+  {
+    "regime": "1.0% Active",
+    "avg_active_synapses": 189.0,
+    "avg_pct": 0.9976773648648648,
+    "min_synapses": 189,
+    "max_synapses": 189,
+    "pred": true,
+    "correct": true,
+    "margin": 3.974854588508606,
+    "top1_token": " ",
+    "mlp_time_s": 24.613429999211803
+  },
+  {
+    "regime": "Elastic-85%",
+    "avg_active_synapses": 8835.75,
+    "avg_pct": 46.641416807432435,
+    "min_synapses": 4526,
+    "max_synapses": 10023,
+    "pred": true,
+    "correct": true,
+    "margin": 16.624998092651367,
+    "top1_token": "Yes",
+    "mlp_time_s": 26.418023700127378
+  }
+]

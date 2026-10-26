@@ -131,12 +131,10 @@ class GlobalSynapticPool(nn.Module):
             v_active = self.v_down[:, active_indices]  # [d, k_active]
             delta_h_flat = torch.matmul(gathered_act, v_active.t())  # [1, d]
         else:
-            delta_h_flat = torch.zeros((num_tokens, d), dtype=h_flat.dtype, device=h_flat.device)
-            for t_i in range(num_tokens):
-                act_t = gathered_act[t_i:t_i+1] # [1, k_active]
-                idx_t = topk_idx[t_i]          # [k_active]
-                v_act = self.v_down[:, idx_t]  # [d, k_active]
-                delta_h_flat[t_i:t_i+1] = torch.matmul(act_t, v_act.t())
+            # Vectorized Homoeostatic Zero-Scatter Indexed-GEMM: avoids unvectorized Python slicing loop
+            sparse_act = torch.zeros_like(act)
+            sparse_act.scatter_(-1, topk_idx, gathered_act)
+            delta_h_flat = torch.matmul(sparse_act, self.v_down.t())
 
         sparsity_ratio = 1.0 - (k_active / float(n_synapses))
 
