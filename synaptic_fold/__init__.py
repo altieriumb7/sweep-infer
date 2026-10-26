@@ -52,6 +52,10 @@ from .quantized_synaptic import (
 from .native_synaptic import (
     NativeSynapticMLP,
 )
+from .structural_synaptic import (
+    StructuralSynapticMLP,
+    StructuralSynapticCompressor,
+)
 
 __version__ = "2.0.0"
 

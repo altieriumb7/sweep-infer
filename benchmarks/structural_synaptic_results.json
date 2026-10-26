@@ -1,0 +1,28 @@
+{
+  "memory": {
+    "nominal_mb": 867.48,
+    "physical_mb": 792.67,
+    "saved_mb": 74.81,
+    "compression_ratio": 1.09
+  },
+  "7b_micro": {
+    "dense_ms": 30.63,
+    "syn_ms": 20.31,
+    "speedup": 1.51,
+    "cos_sim": 0.8505
+  },
+  "generation": {
+    "dense_ttft_ms": 1015.3,
+    "syn_ttft_ms": 1217.9,
+    "ttft_speedup": 0.83,
+    "dense_tok_s": 7.59,
+    "syn_tok_s": 5.67,
+    "gen_speedup": 0.75
+  },
+  "scaling_7b": {
+    "dense_fp16_gb": 15.2,
+    "structural_synaptic_ram_gb": 5.18,
+    "swap_ssd_bytes": 0,
+    "physical_ram_headroom_gb": 0.52
+  }
+}

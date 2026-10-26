@@ -58,14 +58,15 @@ class ManifoldBridge(nn.Module):
             return x
 
         orig_dtype = x.dtype
-        x_f32 = x.to(torch.float32)
+        target_dtype = self.weight.dtype
+        x_cast = x.to(target_dtype)
 
         if self.mode == "moments":
-            out = x_f32 * self.scale + self.bias
+            out = x_cast * self.scale + self.bias
         elif self.mode == "procrustes":
-            out = self.scale * torch.matmul(x_f32, self.weight) + self.bias
+            out = self.scale * torch.matmul(x_cast, self.weight) + self.bias
         else:  # "ridge"
-            out = torch.matmul(x_f32, self.weight) + self.bias
+            out = torch.matmul(x_cast, self.weight) + self.bias
 
         return out.to(orig_dtype)
 
