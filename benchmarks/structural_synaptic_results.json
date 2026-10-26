@@ -1,23 +1,29 @@
 {
   "memory": {
-    "nominal_mb": 867.48,
-    "physical_mb": 792.67,
-    "saved_mb": 74.81,
-    "compression_ratio": 1.09
+    "nominal_mb": 942.29,
+    "physical_mb": 842.54,
+    "saved_mb": 99.75,
+    "compression_ratio": 1.12
   },
   "7b_micro": {
-    "dense_ms": 30.63,
-    "syn_ms": 20.31,
-    "speedup": 1.51,
-    "cos_sim": 0.8505
+    "dense_ms": 22.98,
+    "syn_ms": 23.84,
+    "speedup": 0.96,
+    "cos_sim": 0.9993
+  },
+  "semantic_quality": {
+    "full_prompt_logit_cosine": 0.8579,
+    "full_prompt_top1_agreement_pct": 64.3,
+    "boolq_logit_cosine": 0.7262,
+    "boolq_top1_agreement_pct": 0.0
   },
   "generation": {
-    "dense_ttft_ms": 1015.3,
-    "syn_ttft_ms": 1217.9,
-    "ttft_speedup": 0.83,
-    "dense_tok_s": 7.59,
-    "syn_tok_s": 5.67,
-    "gen_speedup": 0.75
+    "dense_ttft_ms": 887.8,
+    "syn_ttft_ms": 896.2,
+    "ttft_speedup": 0.99,
+    "dense_tok_s": 8.76,
+    "syn_tok_s": 8.64,
+    "gen_speedup": 0.99
   },
   "scaling_7b": {
     "dense_fp16_gb": 15.2,

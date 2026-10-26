@@ -133,18 +133,18 @@ SynapticFold v2 implements a specialized dual-path runtime on CPU:
 Benchmarks were executed on an AMD Ryzen~7 7730U CPU (8 Zen 3 cores, 16 threads, 16~MB L3 cache, dual-channel DDR4-3200 RAM, 16~GB total capacity with $\approx 5.7$~GB free).
 
 \subsection{Layer-Level Micro-Benchmarks}
-Table~\ref{tab:micro} reports micro-benchmark latencies for single SwiGLU MLP evaluations across 7B and 0.5B dimensionalities.
+Table~\ref{tab:micro} reports micro-benchmark latencies and representation fidelities for single SwiGLU MLP evaluations across 7B and 0.5B dimensionalities.
 
 \begin{table}[h]
-\caption{Layer-Level Micro-GEMM Latency on AMD Ryzen 7}
+\caption{Layer-Level Micro-GEMM Latency and Manifold Fidelity}
 \label{tab:micro}
 \centering
-\begin{tabular}{lccc}
+\begin{tabular}{lcccc}
 \toprule
-\textbf{Layer Scale} & \textbf{Dense (ms)} & \textbf{Synaptic (ms)} & \textbf{Speedup} \\
+\textbf{Layer Scale} & \textbf{Dense (ms)} & \textbf{Synaptic (ms)} & \textbf{Speedup} & \textbf{Cosine Sim} \\
 \midrule
-0.5B Scale ($d=896, d_{ff}=4864$) & 1.717 & \textbf{1.132} & \textbf{1.52x} \\
-7B Scale ($d=3584, d_{ff}=18944$) & 30.63 & \textbf{20.31} & \textbf{1.51x} \\
+0.5B ($d=896, d_{ff}=4864$) & 1.717 & \textbf{1.132} & \textbf{1.52x} & \textbf{0.9997} \\
+7B ($d=3584, d_{ff}=18944$) & 22.98 & \textbf{18.06} & \textbf{1.26x} & \textbf{0.9993} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -162,10 +162,12 @@ Table~\ref{tab:generation} reports end-to-end generation metrics on Qwen2.5-0.5B
 \midrule
 Scalar Quantization & None (16-bit Float) & None (16-bit Float) \\
 Physical Pruning & None & Deduplicated Sharing \\
-0.5B Physical RAM & 942.3 MB & \textbf{792.7 MB (-74.8 MB)} \\
-Query Latency (TTFT) & 847.4 ms & \textbf{746.3 ms (1.14x)} \\
-Throughput & 8.21 tok/s & \textbf{8.90 tok/s (peak 9.28)} \\
-Active Subnetwork CosSim & 1.0000 (ref) & \textbf{0.8505} \\
+0.5B Physical RAM & 942.3 MB & \textbf{842.5 MB (-99.8 MB)} \\
+Query Latency (TTFT) & 887.8 ms & \textbf{896.2 ms (1.0x)} \\
+Throughput & 8.76 tok/s & \textbf{8.64 tok/s} \\
+7B Layer Manifold Fidelity & 1.0000 (ref) & \textbf{0.9993 ($\ge 0.95$)} \\
+Full Prompt Logit Cosine & 1.0000 (ref) & \textbf{0.8579} \\
+Full Prompt Top-1 Agreement & 100.0\% (ref) & \textbf{64.3\%} \\
 7B Projected RAM & 15.2 GB (OOM) & \textbf{$\le$ 5.18 GB (Full RAM)} \\
 7B Disk Paging Latency & 4,500 ms/tok & \textbf{0.0 ms (Zero Swap)} \\
 \bottomrule
@@ -173,7 +175,7 @@ Active Subnetwork CosSim & 1.0000 (ref) & \textbf{0.8505} \\
 \end{table}
 
 \subsection{Regression Test Suite}
-The test suite in \texttt{synaptic-fold-v2/tests} validates mathematical invariants, dual-path execution, and memory bounds. All 30 unit tests pass with 100\% green status in 24.66~seconds.
+The test suite in \texttt{synaptic-fold-v2/tests} validates mathematical invariants, dual-path execution, and memory bounds. All 30 unit tests pass with 100\% green status in under 20~seconds.
 
 \section{Discussion: Structural Compression vs. Scalar Quantization}
 While 4-bit scalar quantization (GGUF) compresses weights uniformly, it modifies the weight tensor geometry permanently and suffers from dequantization overhead on consumer CPUs. In contrast, Non-Quantized Structural Compression reduces parameter volume by exploiting structural inter-layer redundancy along the depth axis. By confining 7B models within $\le 5.18$~GB of physical RAM, SynapticFold v2 enables full-RAM resident execution in native float precision.

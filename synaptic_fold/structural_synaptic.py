@@ -149,12 +149,14 @@ class StructuralSynapticCompressor:
         plateau_layers = list(range(start_l, end_l))
         hidden_size = model.config.hidden_size
 
-        # 1. Collect target baseline outputs for calibration if inputs provided
+        # 1. Collect target baseline inputs and outputs for calibration if inputs provided
+        mlp_inputs: Dict[int, torch.Tensor] = {}
         target_outputs: Dict[int, torch.Tensor] = {}
         if calibration_inputs is not None:
             hooks = []
             def get_hook(idx):
                 def fn(mod, inp, out):
+                    mlp_inputs[idx] = inp[0].detach()
                     target_outputs[idx] = out.detach()
                 return fn
             for l in plateau_layers:
@@ -192,13 +194,15 @@ class StructuralSynapticCompressor:
                 )
 
                 # Fit Manifold Bridge if calibration data is available
-                if layer_idx in target_outputs and calibration_inputs is not None:
+                if layer_idx in target_outputs and layer_idx in mlp_inputs:
                     with torch.no_grad():
-                        norm_mod = model.model.layers[layer_idx].post_attention_layernorm
-                        # Compute source output with shared weights
-                        # Using identity approximation for fast calibration
+                        x_in = mlp_inputs[layer_idx].reshape(-1, hidden_size)
                         tgt = target_outputs[layer_idx].reshape(-1, hidden_size)
-                        syn_mlp.bridge.fit(tgt, tgt, reg_lambda=1e-3)
+                        # Compute source output with shared anchor weights
+                        g = F.silu(F.linear(x_in, gate_w))
+                        u = F.linear(x_in, up_w)
+                        src_out = F.linear(g * u, down_w)
+                        syn_mlp.bridge.fit(src_out, tgt, reg_lambda=1e-4)
 
                 model.model.layers[layer_idx].mlp = syn_mlp
                 shared_count += 1
