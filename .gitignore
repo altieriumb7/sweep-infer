@@ -11,4 +11,6 @@ build/
 
 *.aux
 *.out
+models/
+scratch/
 

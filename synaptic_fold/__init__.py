@@ -60,6 +60,10 @@ from .synaptic_native_model import (
     SynapticNativeConfig,
     SynapticNativeModel,
 )
+from .synaptic_full28_model import (
+    SynapticInt4Linear,
+    SynapticFull28Model,
+)
 from .neuromorphic_synapse import (
     SynapticColumnWeight,
     NeuromorphicSynapticMLP,
@@ -105,6 +109,8 @@ __all__ = [
     "StructuralSynapticCompressor",
     "SynapticNativeConfig",
     "SynapticNativeModel",
+    "SynapticInt4Linear",
+    "SynapticFull28Model",
     "SynapticColumnWeight",
     "NeuromorphicSynapticMLP",
     "SynapseSerializer",

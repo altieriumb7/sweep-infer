@@ -626,29 +626,38 @@ class SynapticNativeModel(nn.Module):
         Transforms dense MLPs across boundary and plateau layers into NeuromorphicSynapticMLP
         modules with Cortical Column Factorization and Spiking Gating.
         """
-        from .neuromorphic_synapse import convert_layer_to_synapse
+        from .neuromorphic_synapse import convert_layer_to_synapse, SynapseSerializer
 
         if save_dir is not None:
             os.makedirs(save_dir, exist_ok=True)
 
-        logger.info("Converting boundary_in MLPs to NeuromorphicSynapticMLP...")
+        logger.info("Setting boundary_in MLPs to NeuromorphicSynapticMLP...")
         for idx, layer in enumerate(self.boundary_in):
             save_path = os.path.join(save_dir, f"boundary_in_{idx}.synapse") if save_dir else None
-            res = convert_layer_to_synapse(layer.mlp, rank=rank, sparsity_threshold=sparsity_threshold, theta=theta, output_path=save_path)
-            layer.mlp = res["neuromorphic_mlp"]
+            if save_path and os.path.exists(save_path):
+                layer.mlp = SynapseSerializer.load_module(save_path, device=self.config.device)
+            else:
+                res = convert_layer_to_synapse(layer.mlp, rank=rank, sparsity_threshold=sparsity_threshold, theta=theta, output_path=save_path)
+                layer.mlp = res["neuromorphic_mlp"]
 
-        logger.info("Converting plateau archetype MLPs to NeuromorphicSynapticMLP...")
+        logger.info("Setting plateau archetype MLPs to NeuromorphicSynapticMLP...")
         for idx in range(len(self.plateau.archetype_mlps)):
             save_path = os.path.join(save_dir, f"plateau_archetype_{idx}.synapse") if save_dir else None
-            mlp = self.plateau.archetype_mlps[idx]
-            res = convert_layer_to_synapse(mlp, rank=rank, sparsity_threshold=sparsity_threshold, theta=theta, output_path=save_path)
-            self.plateau.archetype_mlps[idx] = res["neuromorphic_mlp"]
+            if save_path and os.path.exists(save_path):
+                self.plateau.archetype_mlps[idx] = SynapseSerializer.load_module(save_path, device=self.config.device)
+            else:
+                mlp = self.plateau.archetype_mlps[idx]
+                res = convert_layer_to_synapse(mlp, rank=rank, sparsity_threshold=sparsity_threshold, theta=theta, output_path=save_path)
+                self.plateau.archetype_mlps[idx] = res["neuromorphic_mlp"]
 
-        logger.info("Converting boundary_out MLPs to NeuromorphicSynapticMLP...")
+        logger.info("Setting boundary_out MLPs to NeuromorphicSynapticMLP...")
         for idx, layer in enumerate(self.boundary_out):
             save_path = os.path.join(save_dir, f"boundary_out_{idx}.synapse") if save_dir else None
-            res = convert_layer_to_synapse(layer.mlp, rank=rank, sparsity_threshold=sparsity_threshold, theta=theta, output_path=save_path)
-            layer.mlp = res["neuromorphic_mlp"]
+            if save_path and os.path.exists(save_path):
+                layer.mlp = SynapseSerializer.load_module(save_path, device=self.config.device)
+            else:
+                res = convert_layer_to_synapse(layer.mlp, rank=rank, sparsity_threshold=sparsity_threshold, theta=theta, output_path=save_path)
+                layer.mlp = res["neuromorphic_mlp"]
 
         gc.collect()
         logger.info("Neuromorphic conversion complete.")
