@@ -22,6 +22,9 @@ print("LOADING REAL QWEN2.5-7B-INSTRUCT VIA SYNAPTIC NATIVE SELECTIVE LOADER", f
 print("Target: Resident RAM <= 5.18 GB | 100% Native BFloat16 | Zero GGUF/INT4", flush=True)
 print("=" * 80, flush=True)
 
+synapse_dir = os.path.join(ROOT_DIR, "models", "synapse_weights")
+os.makedirs(synapse_dir, exist_ok=True)
+
 try:
     t0 = time.perf_counter()
     model = SynapticNativeModel.from_pretrained(
@@ -29,9 +32,11 @@ try:
         dtype=torch.bfloat16,
         device="cpu",
         load_real_weights=True,
+        use_neuromorphic_mlps=True,
+        synapse_cache_dir=synapse_dir,
     )
     load_time = time.perf_counter() - t0
-    print(f"Model loaded in {load_time:.2f} s", flush=True)
+    print(f"Model loaded and converted to NeuromorphicSynapticMLP in {load_time:.2f} s", flush=True)
 except Exception as e:
     import traceback
     print("ERROR DURING LOADING:", flush=True)

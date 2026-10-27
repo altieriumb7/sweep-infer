@@ -615,6 +615,44 @@ class SynapticNativeModel(nn.Module):
             "rss_gb": round(rss_mb / 1024.0, 3),
         }
 
+    def convert_mlps_to_neuromorphic(
+        self,
+        rank: int = 64,
+        sparsity_threshold: float = 0.01,
+        theta: float = 0.02,
+        save_dir: Optional[str] = None,
+    ):
+        """
+        Transforms dense MLPs across boundary and plateau layers into NeuromorphicSynapticMLP
+        modules with Cortical Column Factorization and Spiking Gating.
+        """
+        from .neuromorphic_synapse import convert_layer_to_synapse
+
+        if save_dir is not None:
+            os.makedirs(save_dir, exist_ok=True)
+
+        logger.info("Converting boundary_in MLPs to NeuromorphicSynapticMLP...")
+        for idx, layer in enumerate(self.boundary_in):
+            save_path = os.path.join(save_dir, f"boundary_in_{idx}.synapse") if save_dir else None
+            res = convert_layer_to_synapse(layer.mlp, rank=rank, sparsity_threshold=sparsity_threshold, theta=theta, output_path=save_path)
+            layer.mlp = res["neuromorphic_mlp"]
+
+        logger.info("Converting plateau archetype MLPs to NeuromorphicSynapticMLP...")
+        for idx in range(len(self.plateau.archetype_mlps)):
+            save_path = os.path.join(save_dir, f"plateau_archetype_{idx}.synapse") if save_dir else None
+            mlp = self.plateau.archetype_mlps[idx]
+            res = convert_layer_to_synapse(mlp, rank=rank, sparsity_threshold=sparsity_threshold, theta=theta, output_path=save_path)
+            self.plateau.archetype_mlps[idx] = res["neuromorphic_mlp"]
+
+        logger.info("Converting boundary_out MLPs to NeuromorphicSynapticMLP...")
+        for idx, layer in enumerate(self.boundary_out):
+            save_path = os.path.join(save_dir, f"boundary_out_{idx}.synapse") if save_dir else None
+            res = convert_layer_to_synapse(layer.mlp, rank=rank, sparsity_threshold=sparsity_threshold, theta=theta, output_path=save_path)
+            layer.mlp = res["neuromorphic_mlp"]
+
+        gc.collect()
+        logger.info("Neuromorphic conversion complete.")
+
     @classmethod
     def from_pretrained(
         cls,
@@ -623,6 +661,8 @@ class SynapticNativeModel(nn.Module):
         dtype: torch.dtype = torch.bfloat16,
         device: str = "cpu",
         load_real_weights: bool = True,
+        use_neuromorphic_mlps: bool = False,
+        synapse_cache_dir: Optional[str] = None,
     ) -> "SynapticNativeModel":
         """
         Selective SafeTensors Streaming Loader.
@@ -753,6 +793,9 @@ class SynapticNativeModel(nn.Module):
         # Tie lm_head.weight pointer to embed_tokens.weight if tie_word_embeddings is True
         if config.tie_word_embeddings:
             model.lm_head.weight = model.embed_tokens.weight
+
+        if use_neuromorphic_mlps:
+            model.convert_mlps_to_neuromorphic(save_dir=synapse_cache_dir)
 
         logger.info(f"Loaded {loaded_count} tensors successfully. SynapticNativeModel initialized.")
         return model

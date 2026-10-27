@@ -247,11 +247,15 @@ class NeuromorphicSynapticMLP(nn.Module):
             # Active potential slice: (batch_tokens, num_active)
             v_active = v[:, active_indices]
 
-            # In down_proj: output = v @ W_down^T
-            # W_down has shape (hidden_size, intermediate_size)
-            # Active down weights: W_down[:, active_indices] of shape (hidden_size, num_active)
-            w_down_active = self.down_proj.get_column_slice(active_indices)
-            out_2d = torch.matmul(v_active, w_down_active.t())
+            if not self.down_proj.has_sparse:
+                # Fast factored down projection: (v_active @ V_active) @ U^T (O(rank) complexity, zero tensor reconstruction)
+                v_sub = self.down_proj.v[active_indices, :]
+                latent_down = torch.matmul(v_active, v_sub)
+                out_2d = torch.matmul(latent_down, self.down_proj.u.t())
+            else:
+                # In down_proj with sparse spikes: output = v @ W_down^T
+                w_down_active = self.down_proj.get_column_slice(active_indices)
+                out_2d = torch.matmul(v_active, w_down_active.t())
         else:
             # Full column firing
             out_2d = self.down_proj(v)
