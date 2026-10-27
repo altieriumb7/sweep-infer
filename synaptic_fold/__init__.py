@@ -56,6 +56,17 @@ from .structural_synaptic import (
     StructuralSynapticMLP,
     StructuralSynapticCompressor,
 )
+from .synaptic_native_model import (
+    SynapticNativeConfig,
+    SynapticNativeModel,
+)
+from .neuromorphic_synapse import (
+    SynapticColumnWeight,
+    NeuromorphicSynapticMLP,
+    SynapseSerializer,
+    convert_layer_to_synapse,
+    factorize_weight_matrix,
+)
 
 __version__ = "2.0.0"
 
@@ -89,4 +100,14 @@ __all__ = [
     "Int4BlockQuantizer",
     "Int4SynapticLinear",
     "Int4SynapticMLP",
+    "NativeSynapticMLP",
+    "StructuralSynapticMLP",
+    "StructuralSynapticCompressor",
+    "SynapticNativeConfig",
+    "SynapticNativeModel",
+    "SynapticColumnWeight",
+    "NeuromorphicSynapticMLP",
+    "SynapseSerializer",
+    "convert_layer_to_synapse",
+    "factorize_weight_matrix",
 ]
