@@ -24,9 +24,10 @@ Architecture Highlights:
 import os
 import gc
 import json
+import struct
 import logging
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union, Callable
 
 import psutil
 import torch
@@ -59,6 +60,7 @@ class SynapticNativeConfig:
     plateau_virtual_layers: int = 22
     plateau_mlp_archetypes: Tuple[int, int] = (8, 18)
     plateau_attn_archetypes: Tuple[int, ...] = (4, 9, 15, 20)
+    recurrent_steps: int = 2
     tie_word_embeddings: bool = True
     dtype: torch.dtype = torch.bfloat16
     device: str = "cpu"
@@ -280,6 +282,7 @@ class SynapticRecurrentPlateau(nn.Module):
         super().__init__()
         self.config = config
         self.num_virtual_layers = config.plateau_virtual_layers
+        self.recurrent_steps = getattr(config, "recurrent_steps", 2)
 
         # 4 Shared Attention Archetypes
         self.archetype_attns = nn.ModuleList([
@@ -321,8 +324,12 @@ class SynapticRecurrentPlateau(nn.Module):
         use_cache: bool = False,
     ) -> Tuple[torch.Tensor, Optional[List[Tuple[torch.Tensor, torch.Tensor]]]]:
         present_kvs = [] if use_cache else None
+        steps = min(self.recurrent_steps, self.num_virtual_layers) if self.recurrent_steps is not None else self.num_virtual_layers
 
-        for v_idx in range(self.num_virtual_layers):
+        for step_idx in range(steps):
+            # Map step_idx evenly across the virtual layers (e.g. step 0 -> v_idx 0, step 1 -> v_idx 11)
+            v_idx = (step_idx * self.num_virtual_layers) // steps
+
             # Select shared archetypes: 4 attention blocks (round-robin / grouped) and 2 MLPs (bipartite)
             attn_idx = (v_idx * 4) // self.num_virtual_layers
             mlp_idx = 0 if v_idx < (self.num_virtual_layers // 2) else 1
@@ -330,7 +337,7 @@ class SynapticRecurrentPlateau(nn.Module):
             attn_mod = self.archetype_attns[attn_idx]
             mlp_mod = self.archetype_mlps[mlp_idx]
 
-            past_kv = past_key_values[v_idx] if past_key_values is not None else None
+            past_kv = past_key_values[step_idx] if past_key_values is not None else None
 
             # Attention block
             residual = hidden_states
@@ -412,7 +419,7 @@ class SynapticNativeModel(nn.Module):
             device=self.config.device,
         )
 
-        # 7. Tied LM Head: Directly shares pointer with embed_tokens.weight (0 MB extra allocation)
+        # 7. LM Head: untied for Qwen2.5-7B, tied for models with tied embeddings
         self.lm_head = nn.Linear(
             self.config.hidden_size,
             self.config.vocab_size,
@@ -420,7 +427,8 @@ class SynapticNativeModel(nn.Module):
             dtype=self.config.dtype,
             device=self.config.device,
         )
-        self.lm_head.weight = self.embed_tokens.weight
+        if self.config.tie_word_embeddings:
+            self.lm_head.weight = self.embed_tokens.weight
 
     def forward(
         self,
@@ -429,6 +437,7 @@ class SynapticNativeModel(nn.Module):
         position_ids: Optional[torch.Tensor] = None,
         past_key_values: Optional[List[Tuple[torch.Tensor, torch.Tensor]]] = None,
         use_cache: bool = False,
+        last_logit_only: bool = False,
     ) -> Union[torch.Tensor, Tuple[torch.Tensor, List[Tuple[torch.Tensor, torch.Tensor]]]]:
         """
         Forward pass executing inference through sensory boundaries and recurrent plateau.
@@ -465,8 +474,9 @@ class SynapticNativeModel(nn.Module):
                 all_present_kvs.append(present_kv)
             kv_idx += 1
 
-        # 4. Central Recurrent Plateau (22 Virtual Layers)
-        plateau_past_kvs = past_key_values[kv_idx : kv_idx + self.plateau.num_virtual_layers] if past_key_values is not None else None
+        # 4. Central Recurrent Plateau (Folded Virtual Layers)
+        plateau_steps = min(self.plateau.recurrent_steps, self.plateau.num_virtual_layers) if self.plateau.recurrent_steps is not None else self.plateau.num_virtual_layers
+        plateau_past_kvs = past_key_values[kv_idx : kv_idx + plateau_steps] if past_key_values is not None else None
         hidden_states, plateau_present_kvs = self.plateau(
             hidden_states, cos, sin,
             attention_mask=attention_mask,
@@ -475,7 +485,7 @@ class SynapticNativeModel(nn.Module):
         )
         if use_cache:
             all_present_kvs.extend(plateau_present_kvs)
-            kv_idx += self.plateau.num_virtual_layers
+            kv_idx += plateau_steps
 
         # 5. Motor Boundary Layers (L25, L26, L27)
         for layer in self.boundary_out:
@@ -494,7 +504,10 @@ class SynapticNativeModel(nn.Module):
         hidden_states = self.norm(hidden_states)
 
         # 7. Tied LM Head Projection
-        logits = self.lm_head(hidden_states)
+        if last_logit_only or (use_cache and past_key_values is not None):
+            logits = self.lm_head(hidden_states[:, -1:, :])
+        else:
+            logits = self.lm_head(hidden_states)
 
         if use_cache:
             return logits, all_present_kvs
@@ -509,6 +522,7 @@ class SynapticNativeModel(nn.Module):
         top_k: int = 50,
         eos_token_id: Optional[int] = 151645,
         use_cache: bool = True,
+        token_callback: Optional[Callable[[int], None]] = None,
     ) -> torch.Tensor:
         """
         Autoregressive generation loop with top-k sampling, greedy decoding, and fast KV caching.
@@ -523,11 +537,11 @@ class SynapticNativeModel(nn.Module):
             if use_cache and past_key_values is not None:
                 # Fast single-token step (S=1) using cached KV states (40x faster!)
                 step_input = curr_ids[:, -1:]
-                out = self.forward(step_input, past_key_values=past_key_values, use_cache=True)
+                out = self.forward(step_input, past_key_values=past_key_values, use_cache=True, last_logit_only=True)
                 logits, past_key_values = out
             elif use_cache:
-                # Initial prefill pass
-                out = self.forward(curr_ids, use_cache=True)
+                # Initial prefill pass (only last token logits needed)
+                out = self.forward(curr_ids, use_cache=True, last_logit_only=True)
                 logits, past_key_values = out
             else:
                 logits = self.forward(curr_ids)
@@ -547,6 +561,8 @@ class SynapticNativeModel(nn.Module):
                 next_token = torch.multinomial(probs, num_samples=1)
 
             curr_ids = torch.cat([curr_ids, next_token], dim=-1)
+            if token_callback is not None:
+                token_callback(next_token.item())
             if eos_token_id is not None and (next_token == eos_token_id).all():
                 break
 
@@ -634,9 +650,11 @@ class SynapticNativeModel(nn.Module):
         # Map required tensor names in safetensors to model parameters
         target_param_map: Dict[str, nn.Parameter] = {}
 
-        # 1. Embeddings & Final Norm
+        # 1. Embeddings & Final Norm & LM Head
         target_param_map["model.embed_tokens.weight"] = model.embed_tokens.weight
         target_param_map["model.norm.weight"] = model.norm.weight
+        if not config.tie_word_embeddings:
+            target_param_map["lm_head.weight"] = model.lm_head.weight
 
         # 2. Boundary In (Layers 0, 1, 2)
         for idx, layer_num in enumerate(config.boundary_in_layers):
@@ -709,19 +727,32 @@ class SynapticNativeModel(nn.Module):
 
         logger.info(f"Selectively loading {len(target_param_map)} tensors across {len(shard_to_keys)} shards...")
 
-        # Load only target tensors shard by shard
+        # Pure binary stream loader: zero mmap, zero Windows commit limit / pagefile exhaustion
+        dtype_map = {"BF16": torch.bfloat16, "F16": torch.float16, "F32": torch.float32}
         loaded_count = 0
         for shard_name, keys in shard_to_keys.items():
             shard_path = os.path.join(snapshot_dir, shard_name)
-            with safe_open(shard_path, framework="pt", device="cpu") as f:
+            with open(shard_path, "rb") as f:
+                header_size = struct.unpack("<Q", f.read(8))[0]
+                header_bytes = f.read(header_size)
+                header = json.loads(header_bytes.decode("utf-8"))
+                data_start = 8 + header_size
+
                 for k in keys:
-                    t = f.get_tensor(k)
-                    target_param_map[k].data = t.to(dtype=dtype, device=device)
+                    t_info = header[k]
+                    start, end = t_info["data_offsets"]
+                    shape = t_info["shape"]
+                    f.seek(data_start + start)
+                    raw = f.read(end - start)
+                    t = torch.frombuffer(bytearray(raw), dtype=dtype_map.get(t_info["dtype"], dtype)).reshape(shape)
+                    target_param_map[k].data.copy_(t.to(dtype=dtype, device=device))
+                    del raw, t
                     loaded_count += 1
             gc.collect()
 
-        # Tie lm_head.weight pointer to embed_tokens.weight (zero extra RAM)
-        model.lm_head.weight = model.embed_tokens.weight
+        # Tie lm_head.weight pointer to embed_tokens.weight if tie_word_embeddings is True
+        if config.tie_word_embeddings:
+            model.lm_head.weight = model.embed_tokens.weight
 
         logger.info(f"Loaded {loaded_count} tensors successfully. SynapticNativeModel initialized.")
         return model
