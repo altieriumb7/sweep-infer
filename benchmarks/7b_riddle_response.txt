@@ -1,0 +1,5 @@
+Per risolvere questo problema, il contadino deve essere molto astuto e strategico nel trasferire il cavolo, la pecora e il lupo dall'aluna al lato opposto del fiume, utilizzando la corda per legare il lupo all'albero per non permetterlo di mangiare la pecora. Ecco la sequenza di viaggi più rapida:
+
+1. **Viaggio 1:** Il contadino porta la pecora al lato opposto del fiume.
+2. **Viaggio 2:** Il contadino torna indietro.
+3. **Viaggio 3:** Il contadino porta il cavolo al lato
