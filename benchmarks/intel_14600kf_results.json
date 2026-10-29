@@ -1,0 +1,43 @@
+{
+  "cpu": "Intel(R) Core(TM) i5-14600KF",
+  "cores": 14,
+  "threads": 20,
+  "model": "Meta-Llama-3-8B-Instruct.Q4_K_M",
+  "kernel_telemetry_us": {
+    "column_kernel_us": 338.5619431734085,
+    "topk_entropy_us": 6.7219501826912165,
+    "tree_branching_us": 23.836196400225163,
+    "crc32_router_ns": 338.1925169378519,
+    "total_us": 369.45828227326274
+  },
+  "baseline": {
+    "ms_per_token": 238.64090465940535,
+    "tok_per_sec": 4.190396451217056
+  },
+  "wavefront": {
+    "2": {
+      "sweep_time_ms": 300.0534555176273,
+      "ms_per_token": 150.02672775881365,
+      "tok_per_sec": 6.665478977903341,
+      "speedup": 1.5906559332751016
+    },
+    "3": {
+      "sweep_time_ms": 369.7575642145239,
+      "ms_per_token": 123.25252140484129,
+      "tok_per_sec": 8.113424282131728,
+      "speedup": 1.936194910573502
+    },
+    "4": {
+      "sweep_time_ms": 413.92860404448584,
+      "ms_per_token": 103.48215101112146,
+      "tok_per_sec": 9.6635022583994,
+      "speedup": 2.3061069211226397
+    },
+    "6": {
+      "sweep_time_ms": 567.3235221765935,
+      "ms_per_token": 94.5539203627656,
+      "tok_per_sec": 10.575976079716206,
+      "speedup": 2.5238604993197065
+    }
+  }
+}
