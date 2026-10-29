@@ -3,24 +3,43 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "synaptic-fold"
+name = "sweep-infer"
 version = "2.0.0"
-description = "Zero-Shot Recurrent Cortical Folding and Neuromorphic Execution with Zero-Scatter Indexed-GEMM for Transformer LLMs"
+description = "SWEEP: Single-pass Wavefront Entropy-gated Execution Pipeline for 7B/8B Large Language Models"
 readme = "README.md"
 requires-python = ">=3.9"
-license = { text = "Apache-2.0" }
+license = { text = "MIT" }
 authors = [
     { name = "Umberto Altieri", email = "altieriumb7@gmail.com" }
 ]
+keywords = ["llm", "inference", "speculative-decoding", "memory-wall", "blackwell", "avx2", "llama", "ollama"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: C",
+    "Programming Language :: C++",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence"
+]
 dependencies = [
-    "torch>=2.0.0",
-    "transformers>=4.40.0",
-    "safetensors>=0.4.0",
-    "psutil>=5.9.0",
-    "datasets>=2.14.0",
+    "numpy>=1.20.0"
 ]
 
 [project.optional-dependencies]
-dev = [
-    "pytest>=7.0.0",
+full = [
+    "torch>=2.0.0",
+    "psutil>=5.9.0",
+    "transformers>=4.40.0"
 ]
+dev = [
+    "pytest>=7.0.0"
+]
+
+[project.scripts]
+sweep = "sweep.cli:main"
+sweep-server = "sweep.server:main"
+
+[tool.setuptools.packages.find]
+include = ["sweep*", "synaptic_fold*"]
