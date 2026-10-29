@@ -1,0 +1,15 @@
+{
+  "A_Logica": {
+    "title": "Logica e Deduzione (Indovinello dei Tre Scrigni)",
+    "tokens": 3,
+    "time_s": 0.9215095043182373,
+    "tok_per_sec": 3.2555280069731865,
+    "ms_per_tok": 307.1698347727458,
+    "avg_tree_assembly_us": 362.0000109852602,
+    "avg_col_assembly_us": 59.76667550082008,
+    "draft_proposed": 9,
+    "draft_accepted": 4,
+    "draft_acc_rate": 44.44444444444444,
+    "text": "Un classico"
+  }
+}

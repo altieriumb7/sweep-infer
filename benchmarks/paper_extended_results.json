@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "platform_cpu": "AMD Ryzen Threadripper PRO 5955WX 16-Core Processor",
+    "threads_per_socket": 8,
+    "suite_type": "Extended Canonical Academic Benchmarks"
+  },
+  "models": {
+    "Meta-Llama-3-8B-Instruct": {
+      "model_name": "Meta-Llama-3-8B-Instruct",
+      "threads": 8,
+      "vocab_size": 128256,
+      "benchmark_mbpp": {
+        "total": 25,
+        "bit_match_pct": 100.0,
+        "avg_alpha": 0.7235238095238096,
+        "avg_speedup": 1.1097535015922908
+      },
+      "benchmark_arc_challenge": {
+        "total": 25,
+        "bit_match_pct": 100.0,
+        "avg_alpha": 0.74,
+        "avg_speedup": 1.1974751010495768
+      },
+      "benchmark_mmlu_stem": {
+        "total": 25,
+        "bit_match_pct": 100.0,
+        "avg_alpha": 0.61,
+        "avg_speedup": 1.1634281398872652
+      },
+      "benchmark_hellaswag": {
+        "total": 25,
+        "bit_match_pct": 100.0,
+        "avg_alpha": 0.9214285714285714,
+        "avg_speedup": 1.4462246544976687
+      }
+    },
+    "Qwen2.5-7B-Instruct": {
+      "model_name": "Qwen2.5-7B-Instruct",
+      "threads": 8,
+      "vocab_size": 152064,
+      "benchmark_mbpp": {
+        "total": 25,
+        "bit_match_pct": 100.0,
+        "avg_alpha": 0.6834761904761903,
+        "avg_speedup": 1.0974406653884532
+      },
+      "benchmark_arc_challenge": {
+        "total": 25,
+        "bit_match_pct": 100.0,
+        "avg_alpha": 0.04,
+        "avg_speedup": 0.9924156523561156
+      },
+      "benchmark_mmlu_stem": {
+        "total": 25,
+        "bit_match_pct": 100.0,
+        "avg_alpha": 0.5933333333333333,
+        "avg_speedup": 1.1661725532169585
+      },
+      "benchmark_hellaswag": {
+        "total": 25,
+        "bit_match_pct": 100.0,
+        "avg_alpha": 0.9152222222222222,
+        "avg_speedup": 1.6048176878661031
+      }
+    }
+  }
+}

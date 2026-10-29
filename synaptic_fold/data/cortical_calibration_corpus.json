@@ -1,0 +1,52 @@
+[
+  {
+    "category": "identity",
+    "prompt": "Ciao, tu come ti chiami?",
+    "completion": "Ciao! Mi chiamo Synaptic Cortical Column. Sono un'architettura neurale compatta bio-ispirata progettata per comprendere e dialogare in italiano con elevata precisione ed efficienza."
+  },
+  {
+    "category": "identity",
+    "prompt": "Qual è il tuo scopo e chi ti ha sviluppato?",
+    "completion": "Il mio obiettivo è fornire risposte intelligenti, logiche e grammaticalmente corrette consumando una frazione della memoria dei grandi modelli tradizionali."
+  },
+  {
+    "category": "logic_boxes",
+    "prompt": "Ci sono tre scatole: Rossa, Blu e Verde. Metto una mela nella Rossa. Sposto la mela nella Blu. Scambio le etichette delle scatole Blu e Verde. Prendo l'oggetto che si trova ora nella scatola chiamata Blu e lo metto nella Rossa. Dove si trova la mela?",
+    "completion": "Analizziamo i passaggi in sequenza:\n1. La mela viene inserita nella scatola Rossa.\n2. La mela passa dalla scatola Rossa alla scatola Blu.\n3. Si scambiano i nomi: la scatola fisica con la mela ora si chiama Verde, mentre quella vuota ora si chiama Blu.\n4. Si preleva l'oggetto dalla scatola che ora si chiama Blu (che è vuota) e nulla si sposta.\nConclusione: La mela si trova ancora nella scatola ora denominata Verde."
+  },
+  {
+    "category": "logic_farmer",
+    "prompt": "Un contadino deve attraversare un fiume con un cavolo, una pecora e un lupo. La barca porta solo lui e un oggetto. Il lupo è legato saldamente a un albero con una corda sulla riva iniziale. Come fa il contadino ad attraversare senza che nulla venga mangiato?",
+    "completion": "Poiché il lupo è legato saldamente e non può mangiare la pecora né scappare:\n1. Il contadino prende la pecora e la trasporta sull'altra riva.\n2. Torna indietro da solo.\n3. Prende il cavolo e lo porta sull'altra riva.\n4. Infine slega il lupo e lo porta dall'altra parte.\nIn questo modo tutti attraversano il fiume in assoluta sicurezza."
+  },
+  {
+    "category": "general_knowledge",
+    "prompt": "Qual è la capitale d'Italia e perché è celebre nel mondo?",
+    "completion": "La capitale d'Italia è Roma, celebre per la sua storia millenaria, monumenti iconici come il Colosseo e per essere il cuore storico e culturale della civiltà occidentale."
+  },
+  {
+    "category": "science",
+    "prompt": "Che cos'è una rete neurale artificiale?",
+    "completion": "Una rete neurale artificiale è un modello matematico computazionale ispirato alle reti biologiche del cervello, composto da strati di nodi interconnessi che apprendono rappresentazioni a partire dai dati."
+  },
+  {
+    "category": "neuroscience",
+    "prompt": "Come funziona la colonna corticale secondo Vernon Mountcastle?",
+    "completion": "Secondo Mountcastle, la corteccia cerebrale è organizzata in moduli verticali stereotipati detti colonne corticali, che elaborano gli stimoli ricorrentemente attraverso strati funzionali specializzati."
+  },
+  {
+    "category": "conversation",
+    "prompt": "Se io mi chiamo Umberto, tu come ti chiami?",
+    "completion": "Piacere di conoscerti Umberto! Mi chiamo Synaptic Cortical Column. Come posso aiutarti oggi nei tuoi progetti o nelle tue ricerche?"
+  },
+  {
+    "category": "grammar_italian",
+    "prompt": "Spiega brevemente la differenza tra l'uso dell'indicativo e del congiuntivo.",
+    "completion": "L'indicativo è il modo verbale della realtà e delle certezze oggettive, mentre il congiuntivo esprime dubbio, possibilità, speranza, opinione personale o stati d'animo soggettivi."
+  },
+  {
+    "category": "math_logic",
+    "prompt": "Se un treno viaggia a 120 km/h, quanti chilometri percorre in 45 minuti?",
+    "completion": "45 minuti corrispondono a tre quarti d'ora (0,75 ore). Moltiplicando 120 per 0,75 otteniamo esattamente 90 chilometri percorsi dal treno."
+  }
+]

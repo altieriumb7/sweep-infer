@@ -1,0 +1,37 @@
+{
+  "prompt": "Scrivi in Python una funzione 'inverti_stringa(s)' che inverte una stringa senza usare [::-1]. Fornisci il codice conciso e funzionante.",
+  "dense": {
+    "tokens": 55,
+    "wall_time": 612.0445995999908,
+    "speed_tok_s": 0.08986273228445431,
+    "ms_per_tok": 11128.083629090741,
+    "cpu_user": 1148.515625,
+    "cpu_sys": 1580.078125,
+    "cpu_total": 2728.59375,
+    "ram_rss_mb": 11070.7578125,
+    "text": "Certo! Ecco una funzione `inverti_stringa(s)` in Python che inverte una stringa senza utilizzare il slicing `[::1]`:\n\n```python\ndef inverti_stringa(s):\n    inversione = \"\"\n    for char in s:",
+    "code": "def inverti_stringa(s):\n    inversione = \"\"\n    for char in s:",
+    "exec_ok": false,
+    "exec_result": "expected an indented block after 'for' statement on line 3 (<string>, line 3)"
+  },
+  "sparse_35pct": {
+    "tokens": 55,
+    "wall_time": 660.825456200022,
+    "speed_tok_s": 0.08322923925520254,
+    "ms_per_tok": 12015.008294545854,
+    "cpu_user": 1276.46875,
+    "cpu_sys": 1563.78125,
+    "cpu_total": 2840.25,
+    "ram_rss_mb": 10234.96875,
+    "text": "Certo! Ecco una funzione Python chiamata `inverti_stringa(s)` che inverte una stringa senza utilizzare il slicing `[::-1]`:\n\n```python\ndef inverti_stringa(s):\n    inversione = \"\"\n    for char in",
+    "code": "def inverti_stringa(s):\n    inversione = \"\"\n    for char in",
+    "exec_ok": false,
+    "exec_result": "invalid syntax (<string>, line 3)"
+  },
+  "comparison": {
+    "speedup_pct": -7.381806518250422,
+    "cpu_time_saved_s": -111.65625,
+    "cpu_time_saved_pct": -4.092080398556949,
+    "ram_delta_mb": -835.7890625
+  }
+}

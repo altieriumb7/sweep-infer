@@ -1,0 +1,29 @@
+[
+  {
+    "domain": "1. Logica Formale (Indovinello del Fiume)",
+    "ms_per_token": 182.23702013422817,
+    "tok_per_sec": 5.487359260283348,
+    "draft_acc": 61,
+    "draft_n": 100,
+    "acc_rate": 61.0,
+    "text": "Un classico indovinello! Ecco la sequenza formale completa per risolvere l'indovinello del contadino, della capra, del lupo e del cavolo:\n\n1. Contadino e capra partono insieme sulla riva sinistra.\n2. Contadino e cavolo partono insieme sulla riva sinistra, lasciando la capra sola sulla riva sinistra.\n3. Contadino torna sulla riva sinistra e prende la capra.\n4. Contadino e capra partono insieme sulla riva destra.\n5. Contadino e lupo partono insieme sulla riva destra, lasciando"
+  },
+  {
+    "domain": "2. Dialogo Filosofico (Mente e Macchina)",
+    "ms_per_token": 198.00563758389262,
+    "tok_per_sec": 5.050361253357304,
+    "draft_acc": 44,
+    "draft_n": 60,
+    "acc_rate": 73.33333333333333,
+    "text": "Il rapporto tra computazione sinaptica e comprensione semantica è un tema di grande interesse nella filosofia della mente e nella teoria del linguaggio. In questo contesto, vorrei esaminare la questione se un modello linguistico che manipola simboli sintattici possieda una reale comprensione semantica del significato.\n\nInnanzitutto, è importante distinguere tra due approcci alla comprensione semantica: l'approccio simbolico e l'approccio semantico. L'approccio simbolico si concentra sulla manipolazione di simboli sintattici, come ad esempio"
+  },
+  {
+    "domain": "3. Neuroscienze Cognitive (Plasticità Sinaptica)",
+    "ms_per_token": 260.2315234899329,
+    "tok_per_sec": 3.8427319895342547,
+    "draft_acc": 2,
+    "draft_n": 28,
+    "acc_rate": 7.142857142857142,
+    "text": "What a delightful topic!\n\nThe Hebbian principle, also known as Hebb's rule, states that \"neurons that fire together, wire together\" (Hebb, 1949). This concept was first introduced by Canadian psychologist Donald Hebb, who proposed that the strength of a neural connection between two neurons is increased when they are activated simultaneously. In other words, the more two neurons are co-activated, the stronger their connection becomes.\n\nNow, let's dive into the fascinating world of long-term potentiation (LTP) in the cerebral cortex, specifically at the level of N-methyl-D-aspartate (NMDA) receptors and glutamatergic synapses.\n\n**The players:**\n\n1. **NMD"
+  }
+]

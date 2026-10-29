@@ -1,0 +1,43 @@
+{
+  "dense": {
+    "Ciao se io mi chiamo Umberto, tu come ti chiami?": {
+      "text": "Mi chiamo Qwen, un assistente virtual creato da Alibaba Cloud. Come persona, sono Umberto. Ciao! Come posso aiutarti oggi?",
+      "tokens": 35,
+      "time": 5.917504199984251,
+      "speed": 5.914655709089848
+    },
+    "Spiega in due frasi chiare la differenza tra intelligenza artificiale e programmazione classica.": {
+      "text": "Intelligenza Artificiale (IA) è un campo di ricerca che studia le tecnologie e le approcciate per creare programmi intelligenti che funzionano come se fossero autonome",
+      "tokens": 45,
+      "time": 7.2157193000020925,
+      "speed": 6.236384500154676
+    },
+    "Scrivi una funzione Python 'inverti_parole(frase)' che inverte l'ordine delle parole in una stringa.": {
+      "text": "Ecco una funzione Python che invertisce il ordine delle parole in una stringa:\n\n```python\ndef inverti_parole(frase):\n    # Separiamo la frase in parole separate\n    parola =",
+      "tokens": 45,
+      "time": 7.341287300019758,
+      "speed": 6.129715152256592
+    }
+  },
+  "neurosynaptic": {
+    "Ciao se io mi chiamo Umberto, tu come ti chiami?": {
+      "text": "Mi chiamo Qwen, un assistente AI creato da Alibaba Cloud. Come posso aiutarti oggi?",
+      "tokens": 25,
+      "time": 5.430751399981091,
+      "speed": 4.603414547770875
+    },
+    "Spiega in due frasi chiare la differenza tra intelligenza artificiale e programmazione classica.": {
+      "text": "La principale differenza tra il computer di informatica e l'arte è la capacità di creare oggetti fisici o immaginabili. La prima è un sistema che può essere eseguito da un",
+      "tokens": 45,
+      "time": 9.533851299987873,
+      "speed": 4.7200232711891825
+    },
+    "Scrivi una funzione Python 'inverti_parole(frase)' che inverte l'ordine delle parole in una stringa.": {
+      "text": "Ecco un esempio di funzione Python che invertisce le parole in una frase:\n\n```python\ndef inverti_parole(frase):\n    # Split the input into words and remove any leading/trailing spaces",
+      "tokens": 45,
+      "time": 9.414487699978054,
+      "speed": 4.779867097824654
+    }
+  },
+  "all_passed": true
+}

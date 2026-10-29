@@ -1,0 +1,42 @@
+{
+  "part_a_7b_fidelity": {
+    "ratio_0.15": {
+      "active_ratio": 0.15,
+      "k_neurons": 2841,
+      "cosine_similarity": 0.9719112515449524,
+      "relative_l2_error": 0.22011974453926086,
+      "flop_reduction_pct": 85.0
+    },
+    "ratio_0.25": {
+      "active_ratio": 0.25,
+      "k_neurons": 4736,
+      "cosine_similarity": 0.9841880798339844,
+      "relative_l2_error": 0.16278867423534393,
+      "flop_reduction_pct": 75.0
+    },
+    "ratio_0.35": {
+      "active_ratio": 0.35,
+      "k_neurons": 6630,
+      "cosine_similarity": 0.9914006590843201,
+      "relative_l2_error": 0.11887353658676147,
+      "flop_reduction_pct": 65.0
+    },
+    "ratio_0.5": {
+      "active_ratio": 0.5,
+      "k_neurons": 9472,
+      "cosine_similarity": 0.9969893097877502,
+      "relative_l2_error": 0.07002349942922592,
+      "flop_reduction_pct": 50.0
+    }
+  },
+  "part_b_end_to_end_generation": {
+    "dense": {
+      "Ciao se io mi chiamo umberto, tu come ti chiami?": "Mi chiamo Alibaba, un assistente virtuale creato da Alibaba Cloud. Sono in grado di rispondere ai tuoi messaggi e ai tuoi questioni, ma non ho la",
+      "Qual e il tuo ruolo e come puoi aiutarmi a programmare in Python?": "Mi dispiace, ma non sono in grado di assistere o creare codice in Python per te. Ho un ruolo principale di assistente creativo e informatico, non"
+    },
+    "sparse": {
+      "Ciao se io mi chiamo umberto, tu come ti chiami?": "Umberto! Come hai la sera? Sono Umberto. Come posso aiutarti oggi?",
+      "Qual e il tuo ruolo e come puoi aiutarmi a programmare in Python?": "Mi dispiace per la confusione precedente. Ecco un ulteriore elenco di informazioni su come posso aiutarti con il tuo progetto Python:\n\n1. **"
+    }
+  }
+}

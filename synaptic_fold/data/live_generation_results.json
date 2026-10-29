@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Indovinello di Logica",
+    "prompt": "Un contadino deve attraversare un fiume con una barca portando con sé un lupo, una capra e un cavolo. La barca può trasportare solo lui e un solo elemento alla volta. Se lasciati soli, il lupo mangia la capra e la capra mangia il cavolo. Qual è la sequenza esatta di tutti i viaggi per portarli tutti sull'altra riva sani e salvi? Spiega ogni passaggio in modo rigoroso.",
+    "text": "Per risolvere questo problema, è necessario pensare a una strategia di trasporto che permetta di trasportare il lupo, la capra e il cavolo attraverso il fiume senza che nessuno di essi muoia. L'idea è di trasportare il lupo e la capra insieme, poi trasportare il cavolo, e quindi trasportare il lupo e la capra di nuovo. Ecco la sequenza di viaggi:\n\n1. **Primo viaggio**: Il contadino trasporta il lupo e la capra insieme. Il lupo mangia la capra, ma questo non è un problema perché la capra non è morta e il lupo non ha mangiato la capra. Il contadino ora ha solo il cavolo con sé.\n\n2. **Secondo viaggio**: Il contadino trasporta il cavolo. Il lupo, che era con la capra, ora è solo con il cavolo. Il lupo non",
+    "tokens": 220,
+    "time_sec": 22.043763599998783,
+    "tokens_per_sec": 11.31012629692676,
+    "draft_acceptance": 0.4915254237288136
+  },
+  {
+    "title": "Neuroscienze e Intelligenza Artificiale",
+    "prompt": "Spiega in modo chiaro e divulgativo come funziona la memoria di lavoro nel cervello umano e quali sono le differenze rispetto alla memoria delle reti neurali artificiali.",
+    "text": "La memoria di lavoro è un meccanismo fondamentale del cervello umano che funziona come un sistema di controllo e di gestione di attività di lavoro. È un tipo di memoria temporanea che viene utilizzata per gestire e gestire le attività di lavoro, mantenendo in memoria le informazioni necessarie per completare un compito o un processo.\n\nIn modo più dettagliato, la memoria di lavoro funziona come un sistema di \"pensiero in tempo reale\". Quando si esegue un compito, come leggere un testo o risolvere un problema matematico, la mente si occupa di mantenere in memoria le informazioni necessarie per completare il compito. Questo include la memoria di lavoro, che è una sorta di \"cache\" temporanea di informazioni che viene utilizzata per gestire le attività di lavoro.\n\nLa memoria di lavoro è un'importante parte del cervello umano perché permette di gestire e gestire le attività di lavoro in",
+    "tokens": 220,
+    "time_sec": 20.549729099991964,
+    "tokens_per_sec": 11.057651768795104,
+    "draft_acceptance": 0.4563106796116505
+  },
+  {
+    "title": "Dialogo Filosofico",
+    "prompt": "Scrivi un breve dialogo vivace e arguto tra due scienziati, Leonardo e Sofia, che discutono se le reti neurali comprendono veramente i concetti o se sono soltanto complesse matrici statistiche.",
+    "text": "Leonardo: \"Sofia, mi chiedevo se le reti neurali realmente comprendono i concetti o se sono solo un modo di mettere in pratica matrici statistiche.\"\n\nSofia: \"Ecco un modo di pensare interessante, Leonardo. Le reti neurali, in realtà, sono un modello di sistema di neuroni, ma non sono solo matrici statistiche. Le loro strutture e le loro funzioni sono basate su un modello di processamento di dati molto più complesso.\"\n\nLeonardo: \"Ecco, ma non vedo la differenza. Le reti neurali sono solo una versione moderna di matrici statistiche. Le loro funzioni sono solo un modo di applicare lineamenti statistici.\"\n\nSofia: \"Non è così, Leonardo. Le reti neurali non sono solo matrici statistiche. Le loro funzioni sono basate su un modello di processamento di dati molto più complesso. Le reti neurali imit",
+    "tokens": 220,
+    "time_sec": 22.389787099993555,
+    "tokens_per_sec": 10.231167865387356,
+    "draft_acceptance": 0.4146341463414634
+  }
+]

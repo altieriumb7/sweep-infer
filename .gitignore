@@ -11,6 +11,14 @@ build/
 
 *.aux
 *.out
+*.obj
+*.dll
+*.so
+*.pt
+*.bin
+*.gguf
+*.synapse
+
 models/
 scratch/
-
+synaptic_fold/weights/

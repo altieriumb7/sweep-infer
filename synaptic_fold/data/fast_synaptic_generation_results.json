@@ -1,0 +1,42 @@
+{
+  "engine": "SynapticNativeEngine (C++ AVX-2 Backend)",
+  "model": "synaptic-llama3:latest",
+  "total_tokens": 123,
+  "total_time_s": 42.814792899996974,
+  "avg_speed_tok_s": 2.8728388407084573,
+  "results": [
+    {
+      "test": "1. Saluto e Identità",
+      "prompt": "Ciao! In una sola frase dimmi chi sei e come puoi aiutarmi.",
+      "response": "Sono un assistente linguistico intelligente che utilizza l'intelligenza artificiale per comprendere e rispondere alle tue domande, offrendoti supporto e informazioni su vari argomenti in modo chiar",
+      "tokens": 50,
+      "time_seconds": 15.749033900006907,
+      "tokens_per_sec": 4.100328477314317,
+      "ram_mb": 406.76171875,
+      "success": true,
+      "code_verified": null
+    },
+    {
+      "test": "2. Codice Python Semplice (somma)",
+      "prompt": "Scrivi una funzione Python 'somma(a, b)' che restituisce a + b. Fornisci solo il blocco di codice.",
+      "response": "def somma(a, b):\n    return a + b",
+      "tokens": 13,
+      "time_seconds": 7.653158799977973,
+      "tokens_per_sec": 4.166730770216978,
+      "ram_mb": 406.78515625,
+      "success": true,
+      "code_verified": true
+    },
+    {
+      "test": "3. Ragionamento Generale",
+      "prompt": "Qual è la capitale d'Italia e cosa rappresenta il Colosseo? Rispondi in due righe.",
+      "response": "La capitale dell'Italia è Roma.\n\nIl Colosseo rappresenta un simbolo della storia e dell'architettura romana, costruito nel I secolo d.C. come arena per gladiatori e animali selvaggi, oggi considerato uno dei più",
+      "tokens": 60,
+      "time_seconds": 19.412600200012093,
+      "tokens_per_sec": 3.936464156361605,
+      "ram_mb": 406.78515625,
+      "success": true,
+      "code_verified": null
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "layer_idx": 12,
+  "d_model": 3584,
+  "d_intermediate": 18944,
+  "tokens_evaluated": 700,
+  "sparsity_levels": {
+    "top_512_2.7pct": {
+      "k": 512,
+      "percentage": 2.7,
+      "energy_retained_pct": 25.86,
+      "cosine_similarity": 0.93722,
+      "relative_l2_error": 0.3328
+    },
+    "top_1024_5.4pct": {
+      "k": 1024,
+      "percentage": 5.41,
+      "energy_retained_pct": 34.73,
+      "cosine_similarity": 0.95278,
+      "relative_l2_error": 0.29177
+    },
+    "top_1894_10.0pct": {
+      "k": 1894,
+      "percentage": 10.0,
+      "energy_retained_pct": 45.41,
+      "cosine_similarity": 0.96576,
+      "relative_l2_error": 0.24838
+    },
+    "top_2841_15.0pct": {
+      "k": 2841,
+      "percentage": 15.0,
+      "energy_retained_pct": 54.41,
+      "cosine_similarity": 0.97468,
+      "relative_l2_error": 0.21228
+    },
+    "top_3788_20.0pct": {
+      "k": 3788,
+      "percentage": 20.0,
+      "energy_retained_pct": 61.83,
+      "cosine_similarity": 0.98106,
+      "relative_l2_error": 0.18234
+    },
+    "top_5683_30.0pct": {
+      "k": 5683,
+      "percentage": 30.0,
+      "energy_retained_pct": 73.52,
+      "cosine_similarity": 0.98953,
+      "relative_l2_error": 0.13394
+    },
+    "top_9472_50.0pct": {
+      "k": 9472,
+      "percentage": 50.0,
+      "energy_retained_pct": 88.68,
+      "cosine_similarity": 0.99732,
+      "relative_l2_error": 0.06671
+    }
+  },
+  "dead_neurons_1e4": 0,
+  "low_neurons_1e2": 0
+}

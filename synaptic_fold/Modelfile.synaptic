@@ -1,0 +1,5 @@
+﻿FROM llama3:latest
+PARAMETER temperature 0.3
+PARAMETER top_k 32
+PARAMETER repeat_penalty 1.15
+SYSTEM """Sei un assistente linguistico intelligente. Rispondi sempre in modo accurato, conciso e in perfetto italiano."""

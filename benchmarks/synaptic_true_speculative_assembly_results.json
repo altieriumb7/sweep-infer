@@ -1,0 +1,53 @@
+{
+  "A_Logica": {
+    "title": "Logica e Deduzione (Indovinello dei Tre Scrigni)",
+    "tokens": 100,
+    "decodes": 93,
+    "time_s": 25.812058687210083,
+    "tok_per_sec": 3.8741582456400567,
+    "ms_per_tok": 258.12058687210083,
+    "avg_topk_entropy_us": 144.52400209847838,
+    "avg_tree_assembly_us": 138.2655889717161,
+    "avg_col_assembly_us": 43.48925049466792,
+    "avg_router_ns": 11670.490971109906,
+    "draft_proposed": 30,
+    "draft_accepted": 7,
+    "draft_acc_rate": 23.333333333333332,
+    "speculative_sweeps": 30,
+    "text": "Un classico problema di logica! Siamo pronti a risolverlo passo dopo passo.\n\nNotiamo che le affermazioni sono formulate in modo tale che due di esse sono false, mentre una è vera. Ciò significa che possiamo utilizzare la tecnica della \"eliminazione per assurdità\" per ridurre le possibilità.\n\n1. Iniziamo analizzando l'iscrizione sullo scrigno d'Oro: 'Il"
+  },
+  "B_Neuroscienze": {
+    "title": "Spiegazione Scientifica (Neurodinamica Sinaptica)",
+    "tokens": 100,
+    "decodes": 94,
+    "time_s": 24.98747444152832,
+    "tok_per_sec": 4.002005093952331,
+    "ms_per_tok": 249.8747444152832,
+    "avg_topk_entropy_us": 143.21299735456705,
+    "avg_tree_assembly_us": 120.02021391341027,
+    "avg_col_assembly_us": 42.35319198763117,
+    "avg_router_ns": 10050.720184285572,
+    "draft_proposed": 25,
+    "draft_accepted": 6,
+    "draft_acc_rate": 24.0,
+    "speculative_sweeps": 25,
+    "text": "The potentiating phenomenon of long-term potentiation (LTP) mediated by N-methyl-D-aspartate (NMDA) receptors is a fundamental mechanism underlying learning and memory consolidation in the brain. At the molecular level, LTP is characterized by a persistent increase in the strength of synaptic transmission between neurons, which is thought to be mediated by the activation of NMDA receptors.\n\nThe NMDA receptor is a ligand-gated ion channel that is permeable to calcium ions ("
+  },
+  "C_Codice_Sintassi": {
+    "title": "Struttura e Codice Tecnico (Algoritmo Matematico)",
+    "tokens": 100,
+    "decodes": 88,
+    "time_s": 23.24380135536194,
+    "tok_per_sec": 4.302222277292511,
+    "ms_per_tok": 232.43801355361938,
+    "avg_topk_entropy_us": 135.84600237663835,
+    "avg_tree_assembly_us": 120.7647755191746,
+    "avg_col_assembly_us": 43.35340649545701,
+    "avg_router_ns": 9280.301376499912,
+    "draft_proposed": 23,
+    "draft_accepted": 12,
+    "draft_acc_rate": 52.17391304347826,
+    "speculative_sweeps": 23,
+    "text": "Here is the implementation of the `PicardWavefrontContraction` class in Python:\n```python\nimport numpy as np\nfrom typing import Callable, Tuple\n\nclass PicardWavefrontContraction:\n    \"\"\"\n    Simulates the Picard-Lindelof iteration for solving ordinary differential equations (ODEs).\n\n    Attributes:\n        - func: The ODE function, which takes in the current state and returns the next state.\n        - x0: The initial condition.\n        - t_max"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "dense_7b": {
+    "Ciao se io mi chiamo umberto, tu come ti chiami?": {
+      "text": "Ciao Umberto! Io sono Qwen, un assistente virtuale creato da Alibaba Cloud. Piacere di conoscerti!",
+      "speed": 0.08608060634406293,
+      "time": 360.1275747999898
+    },
+    "Qual e il tuo ruolo e come puoi aiutarmi a programmare in Python?": {
+      "text": "Il mio ruolo \u00e8 quello di assistente AI creato da Alibaba Cloud, pronto a fornire assistenza e supporto in vari ambiti, compresa la programmazione in Python. Posso aiutarti a comprendere concetti di programmazione, a risolvere problemi specifici",
+      "speed": 0.08902426707629588,
+      "time": 673.9735351999989
+    },
+    "Scrivi una funzione Python concisa per calcolare il fattoriale con memoization.": {
+      "text": "Certamente! Puoi utilizzare la tecnica di memoization per memorizzare i risultati di calcoli precedenti e ridurre il tempo di esecuzione per i calcoli futuri. In Python, una buona maniera di implementare memoization \u00e8 utilizzando le decorazioni",
+      "speed": 0.08589366396839945,
+      "time": 698.5381368999952
+    }
+  },
+  "neurosynaptic_sparse_7b": {
+    "Ciao se io mi chiamo umberto, tu come ti chiami?": {
+      "text": "Ciao Umberto! Mi chiamo Qwen, sono un assistente virtuale creato da Alibaba Cloud. Piacere di conoscerti!",
+      "speed": 0.1082155793486168,
+      "time": 304.9468496000045
+    },
+    "Qual e il tuo ruolo e come puoi aiutarmi a programmare in Python?": {
+      "text": "Il mio ruolo \u00e8 quello di essere un assistente AI progettato per fornire assistenza e risposte alle domande su vari argomenti, tra cui la programmazione in Python. Posso aiutarti a diversi livelli, dal consigliare su come risolver",
+      "speed": 0.09764969210160968,
+      "time": 614.4412615000037
+    },
+    "Scrivi una funzione Python concisa per calcolare il fattoriale con memoization.": {
+      "text": "Certo! Ecco una funzione Python concisa per calcolare il fattoriale con memoizzazione utilizzando un dizionario per memorizzare i valori calcolati:\n\n```python\ndef fattoriale(n, memo={0: 1, 1: 1}",
+      "speed": 0.08703281450250716,
+      "time": 689.3951476000075
+    }
+  }
+}

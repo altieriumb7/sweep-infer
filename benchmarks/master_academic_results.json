@@ -1,0 +1,203 @@
+{
+  "metadata": {
+    "platform_cpu": "AMD Ryzen Threadripper PRO 5955WX 16-Core Processor",
+    "platform_gpu": "NVIDIA GeForce RTX 5070 Ti (16GB VRAM)",
+    "os": "Linux 6.6.137+bwh (Ubuntu 22.04 LTS)",
+    "ram": "94 GiB DDR4 8-Channel",
+    "threads_per_socket": 8,
+    "total_benchmarks_evaluated": 7,
+    "benchmarks_list": [
+      "GSM8K",
+      "HumanEval",
+      "BoolQ",
+      "MBPP",
+      "ARC-Challenge",
+      "MMLU-STEM",
+      "HellaSwag"
+    ]
+  },
+  "gpu_references": {
+    "Meta-Llama-3-8B-Instruct": {
+      "gpu_tok_per_sec": 53.65,
+      "gpu_latency_ms": 18.64,
+      "gpu_bandwidth_gb_s": 245.7
+    },
+    "Qwen2.5-7B-Instruct": {
+      "gpu_tok_per_sec": 57.57,
+      "gpu_latency_ms": 17.37,
+      "gpu_bandwidth_gb_s": 250.9
+    }
+  },
+  "models": {
+    "Meta-Llama-3-8B-Instruct": {
+      "model_name": "Meta-Llama-3-8B-Instruct",
+      "threads": 8,
+      "vocab_size": 128256,
+      "aspect_a_throughput": {
+        "Task_A_Logic": {
+          "baseline_tok_per_sec": 4.948321940079756,
+          "synaptic_tok_per_sec": 5.268784560711346,
+          "speedup": 1.0647618777662684,
+          "bit_match_pct": 100.0,
+          "acceptance_rate": 0.7647058823529411,
+          "avg_dram_sweep_ms": 217.9513783675843
+        },
+        "Task_B_Neuroscience": {
+          "baseline_tok_per_sec": 5.046957952817389,
+          "synaptic_tok_per_sec": 5.501076542517576,
+          "speedup": 1.0899786750643883,
+          "bit_match_pct": 100.0,
+          "acceptance_rate": 0.6153846153846154,
+          "avg_dram_sweep_ms": 197.39916578502113
+        },
+        "Task_C_Code": {
+          "baseline_tok_per_sec": 4.8854260845649575,
+          "synaptic_tok_per_sec": 5.570873480231937,
+          "speedup": 1.1403045269342187,
+          "bit_match_pct": 100.0,
+          "acceptance_rate": 0.8125,
+          "avg_dram_sweep_ms": 206.13013473392903
+        }
+      },
+      "aspect_b_gsm8k": {
+        "total": 25,
+        "bit_match_pct": 100.0,
+        "avg_alpha": 0.7826825396825395,
+        "avg_speedup": 1.1880246529288179
+      },
+      "aspect_b_humaneval": {
+        "total": 25,
+        "bit_match_pct": 100.0,
+        "avg_alpha": 0.8847619047619049,
+        "avg_speedup": 1.2250873895768715
+      },
+      "aspect_b_boolq": {
+        "total": 50,
+        "bit_match_pct": 100.0,
+        "avg_alpha": 0.33766666666666667,
+        "avg_speedup": 1.071782306205099
+      },
+      "aspect_c_telemetry": {
+        "model_size_gb": 4.582790911197662,
+        "avg_dram_sweep_ms": 194.18731642266116,
+        "effective_dram_bandwidth_gb_s": 23.599846764568927,
+        "avx2_col_latency_us": 14.138097564379374,
+        "avx2_topk_latency_us": 80.5482268333435,
+        "avx2_tree_latency_us": 44.33530072371165,
+        "avx2_router_latency_ns": 8797.27303981781,
+        "kernel_overhead_ratio_pct": 0.07159150642920728
+      },
+      "extended_benchmarks": {
+        "mbpp": {
+          "total": 25,
+          "bit_match_pct": 100.0,
+          "avg_alpha": 0.7235238095238096,
+          "avg_speedup": 1.1097535015922908
+        },
+        "arc_challenge": {
+          "total": 25,
+          "bit_match_pct": 100.0,
+          "avg_alpha": 0.74,
+          "avg_speedup": 1.1974751010495768
+        },
+        "mmlu_stem": {
+          "total": 25,
+          "bit_match_pct": 100.0,
+          "avg_alpha": 0.61,
+          "avg_speedup": 1.1634281398872652
+        },
+        "hellaswag": {
+          "total": 25,
+          "bit_match_pct": 100.0,
+          "avg_alpha": 0.9214285714285714,
+          "avg_speedup": 1.4462246544976687
+        }
+      }
+    },
+    "Qwen2.5-7B-Instruct": {
+      "model_name": "Qwen2.5-7B-Instruct",
+      "threads": 8,
+      "vocab_size": 152064,
+      "aspect_a_throughput": {
+        "Task_A_Logic": {
+          "baseline_tok_per_sec": 6.265211320279577,
+          "synaptic_tok_per_sec": 6.39176863188191,
+          "speedup": 1.0202000068525519,
+          "bit_match_pct": 100.0,
+          "acceptance_rate": 0.47058823529411764,
+          "avg_dram_sweep_ms": 169.85254175961018
+        },
+        "Task_B_Neuroscience": {
+          "baseline_tok_per_sec": 6.009141246792126,
+          "synaptic_tok_per_sec": 6.580285551221525,
+          "speedup": 1.0950459110499848,
+          "bit_match_pct": 100.0,
+          "acceptance_rate": 0.8571428571428571,
+          "avg_dram_sweep_ms": 172.48267096213317
+        },
+        "Task_C_Code": {
+          "baseline_tok_per_sec": 5.8212868049629884,
+          "synaptic_tok_per_sec": 6.94691299121849,
+          "speedup": 1.1933638083758111,
+          "bit_match_pct": 100.0,
+          "acceptance_rate": 0.8461538461538461,
+          "avg_dram_sweep_ms": 161.5507650618138
+        }
+      },
+      "aspect_b_gsm8k": {
+        "total": 25,
+        "bit_match_pct": 100.0,
+        "avg_alpha": 0.5376666666666666,
+        "avg_speedup": 1.059255559576546
+      },
+      "aspect_b_humaneval": {
+        "total": 25,
+        "bit_match_pct": 100.0,
+        "avg_alpha": 0.40885714285714286,
+        "avg_speedup": 1.0618826891614248
+      },
+      "aspect_b_boolq": {
+        "total": 50,
+        "bit_match_pct": 100.0,
+        "avg_alpha": 0.2602380952380952,
+        "avg_speedup": 1.0526176459337948
+      },
+      "aspect_c_telemetry": {
+        "model_size_gb": 4.361452758312225,
+        "avg_dram_sweep_ms": 165.83474911749363,
+        "effective_dram_bandwidth_gb_s": 26.299993104715007,
+        "avx2_col_latency_us": 14.5789235830307,
+        "avx2_topk_latency_us": 90.72571992874146,
+        "avx2_tree_latency_us": 41.039660573005676,
+        "avx2_router_latency_ns": 4578.381776809692,
+        "kernel_overhead_ratio_pct": 0.08824706815885322
+      },
+      "extended_benchmarks": {
+        "mbpp": {
+          "total": 25,
+          "bit_match_pct": 100.0,
+          "avg_alpha": 0.6834761904761903,
+          "avg_speedup": 1.0974406653884532
+        },
+        "arc_challenge": {
+          "total": 25,
+          "bit_match_pct": 100.0,
+          "avg_alpha": 0.04,
+          "avg_speedup": 0.9924156523561156
+        },
+        "mmlu_stem": {
+          "total": 25,
+          "bit_match_pct": 100.0,
+          "avg_alpha": 0.5933333333333333,
+          "avg_speedup": 1.1661725532169585
+        },
+        "hellaswag": {
+          "total": 25,
+          "bit_match_pct": 100.0,
+          "avg_alpha": 0.9152222222222222,
+          "avg_speedup": 1.6048176878661031
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "1_Baseline_Sequential": {
+    "name": "Baseline Sequenziale (No Opt, SMT Jitter, FP16 KV)",
+    "tasks": {
+      "A_Logica": {
+        "title": "Logica e Deduzione (Indovinello dei Tre Scrigni)",
+        "tokens": 220,
+        "time_s": 63.90237045288086,
+        "tok_per_sec": 3.997477828783242,
+        "ms_per_tok": 250.15773515981735,
+        "draft_accepted": 0,
+        "draft_total": 0,
+        "draft_acc_rate": 0.0,
+        "generated_text": "Che bel problema! Sono pronto a dimostrare la soluzione step by step.\n\nSiano A, B e C le affermazioni relative ai tre scrigni d'Oro, d'Argento e di Piombo, rispettivamente.\n\nDato che solo una delle tre affermazioni è vera e le altre due sono false, possiamo iniziare a dedurre.\n\n1. Dalla lettura dell'iscrizione sullo scrigno d'Oro, A: \"Il tesoro si trova qui dentro.\", possiamo dedurre che se il tesoro si trova nello scrigno d'Oro, allora A è vera.\n2. Dalla lettura dell'iscrizione sullo scrigno d'Argento, B: \"Il tesoro non si trova qui dentro.\", possiamo dedurre che se il tesoro non si trova nello scrigno d'Argento, allora B è vera.\n3. Dalla lettura dell'iscrizione sullo scr"
+      },
+      "B_Neuroscienze": {
+        "title": "Spiegazione Scientifica (Neurodinamica Sinaptica)",
+        "tokens": 220,
+        "time_s": 59.04756808280945,
+        "tok_per_sec": 4.052439904675511,
+        "ms_per_tok": 246.76491780821917,
+        "draft_accepted": 0,
+        "draft_total": 0,
+        "draft_acc_rate": 0.0,
+        "generated_text": "The long-term potentiation (LTP) mediated by N-methyl-D-aspartate (NMDA) receptors is a complex process that involves a series of molecular and electrophysiological events. At the molecular level, LTP is characterized by an increase in the strength of synaptic transmission between neurons, which is thought to be a key mechanism underlying learning and memory.\n\nThe process begins with the activation of NMDA receptors, which are a subtype of glutamate receptor. When glutamate is released from the presynaptic neuron and binds to the NMDA receptor, it causes a rapid influx of calcium ions (Ca2+) into the postsynaptic neuron. This calcium influx triggers a series of downstream signaling events that ultimately lead to the strengthening of the synaptic connection.\n\nOne of the key steps in this process is the expulsion of magnesium ions (Mg2+) from the NMDA receptor. Magnesium ions are naturally bound to the NMDA receptor and serve as a negative regulator of the receptor's activity. When glutamate binds to the receptor, the magnesium ion is expelled,"
+      },
+      "C_Codice_Sintassi": {
+        "title": "Struttura e Codice Tecnico (Algoritmo Matematico)",
+        "tokens": 220,
+        "time_s": 57.934953927993774,
+        "tok_per_sec": 4.086654923847238,
+        "ms_per_tok": 244.6989086757991,
+        "draft_accepted": 0,
+        "draft_total": 0,
+        "draft_acc_rate": 0.0,
+        "generated_text": "Here is the implementation of the `PicardWavefrontContraction` class in Python:\n```python\nimport numpy as np\nfrom typing import Callable, Tuple\n\nclass PicardWavefrontContraction:\n    \"\"\"\n    Simulates the Picard-Lindelof iteration for solving ordinary differential equations (ODEs).\n\n    Attributes:\n        - func: The ODE function, which takes in the current state and returns the derivative.\n        - x0: The initial condition.\n        - tol: The tolerance for the iteration.\n        - max_iter: The maximum number of iterations.\n        - verbose: Whether to print iteration details.\n\n    Methods:\n        - solve: Runs the Picard-Lindelof iteration to solve the ODE.\n    \"\"\"\n\n    def __init__(self, func: Callable[[np.ndarray], np.ndarray], x0: np.ndarray, tol: float = 1e-6, max_iter: int = 100, verbose: bool = False):\n        \"\"\"\n        Initializes the PicardWavefrontContraction object.\n\n        Args:\n            func: The ODE function"
+      }
+    }
+  },
+  "2_Core_Affinity_Pinning": {
+    "name": "+ Core Affinity Pinning (0x5555 Physical Cores Zen 3)",
+    "tasks": {
+      "A_Logica": {
+        "title": "Logica e Deduzione (Indovinello dei Tre Scrigni)",
+        "tokens": 220,
+        "time_s": 62.26942586898804,
+        "tok_per_sec": 4.105051991889317,
+        "ms_per_tok": 243.60227397260275,
+        "draft_accepted": 0,
+        "draft_total": 0,
+        "draft_acc_rate": 0.0,
+        "generated_text": "Che bel problema! Sono pronto a dimostrare la soluzione step by step.\n\nSiano A, B e C le affermazioni relative ai tre scrigni d'Oro, d'Argento e di Piombo, rispettivamente.\n\nDato che solo una delle tre affermazioni è vera e le altre due sono false, possiamo iniziare a dedurre.\n\n1. Dalla lettura dell'iscrizione sullo scrigno d'Oro, A: \"Il tesoro si trova qui dentro.\", possiamo dedurre che se il tesoro si trova nello scrigno d'Oro, allora A è vera.\n2. Dalla lettura dell'iscrizione sullo scrigno d'Argento, B: \"Il tesoro non si trova qui dentro.\", possiamo dedurre che se il tesoro non si trova nello scrigno d'Argento, allora B è vera.\n3. Dalla lettura dell'iscrizione sullo scr"
+      },
+      "B_Neuroscienze": {
+        "title": "Spiegazione Scientifica (Neurodinamica Sinaptica)",
+        "tokens": 220,
+        "time_s": 58.296571016311646,
+        "tok_per_sec": 4.080318175386049,
+        "ms_per_tok": 245.0789269406393,
+        "draft_accepted": 0,
+        "draft_total": 0,
+        "draft_acc_rate": 0.0,
+        "generated_text": "The long-term potentiation (LTP) mediated by N-methyl-D-aspartate (NMDA) receptors is a complex process that involves a series of molecular and electrophysiological events. At the molecular level, LTP is characterized by an increase in the strength of synaptic transmission between neurons, which is thought to be a key mechanism underlying learning and memory.\n\nThe process begins with the activation of NMDA receptors, which are a subtype of glutamate receptor. When glutamate is released from the presynaptic neuron and binds to the NMDA receptor, it causes a rapid influx of calcium ions (Ca2+) into the postsynaptic neuron. This calcium influx triggers a series of downstream signaling events that ultimately lead to the strengthening of the synaptic connection.\n\nOne of the key steps in this process is the expulsion of magnesium ions (Mg2+) from the NMDA receptor. Magnesium ions are naturally bound to the NMDA receptor and serve as a negative regulator of the receptor's activity. When glutamate binds to the receptor, the magnesium ion is expelled,"
+      },
+      "C_Codice_Sintassi": {
+        "title": "Struttura e Codice Tecnico (Algoritmo Matematico)",
+        "tokens": 220,
+        "time_s": 57.504125356674194,
+        "tok_per_sec": 4.105982572222593,
+        "ms_per_tok": 243.54706392694064,
+        "draft_accepted": 0,
+        "draft_total": 0,
+        "draft_acc_rate": 0.0,
+        "generated_text": "Here is the implementation of the `PicardWavefrontContraction` class in Python:\n```python\nimport numpy as np\nfrom typing import Callable, Tuple\n\nclass PicardWavefrontContraction:\n    \"\"\"\n    Simulates the Picard-Lindelof iteration for solving ordinary differential equations (ODEs).\n\n    Attributes:\n        - func: The ODE function, which takes in the current state and returns the derivative.\n        - x0: The initial condition.\n        - tol: The tolerance for the iteration.\n        - max_iter: The maximum number of iterations.\n        - verbose: Whether to print iteration details.\n\n    Methods:\n        - solve: Runs the Picard-Lindelof iteration to solve the ODE.\n    \"\"\"\n\n    def __init__(self, func: Callable[[np.ndarray], np.ndarray], x0: np.ndarray, tol: float = 1e-6, max_iter: int = 100, verbose: bool = False):\n        \"\"\"\n        Initializes the PicardWavefrontContraction object.\n\n        Args:\n            func: The ODE function"
+      }
+    }
+  },
+  "3_Quantized_KV_FlashAttn": {
+    "name": "+ KV Cache Q8_0 & Flash Attention (-fa on, -ctk q8_0)",
+    "tasks": {
+      "A_Logica": {
+        "title": "Logica e Deduzione (Indovinello dei Tre Scrigni)",
+        "tokens": 220,
+        "time_s": 62.40622091293335,
+        "tok_per_sec": 4.067280017445846,
+        "ms_per_tok": 245.8645570776256,
+        "draft_accepted": 0,
+        "draft_total": 0,
+        "draft_acc_rate": 0.0,
+        "generated_text": "Che bel problema! Sono pronto a dimostrare la soluzione step by step.\n\nSiano A, B e C le affermazioni relative ai tre scrigni d'Oro, d'Argento e di Piombo, rispettivamente.\n\nDopo aver analizzato le affermazioni, possiamo notare che solo una di esse è vera, mentre le altre due sono false.\n\nInnanzitutto, consideriamo l'asserzione del Scrigno d'Oro: \"Il tesoro si trova qui dentro.\" Se questa affermazione fosse vera, allora il tesoro si troverebbe nel Scrigno d'Oro. In questo caso, l'asserzione del Scrigno d'Argento, \"Il tesoro non si trova qui dentro\", sarebbe falsa, poiché il tesoro si troverebbe effettivamente nel Scrigno d'Oro.\n\nTuttavia, l'asserzione del Scrigno di Piombo, \"Il tesoro non si"
+      },
+      "B_Neuroscienze": {
+        "title": "Spiegazione Scientifica (Neurodinamica Sinaptica)",
+        "tokens": 220,
+        "time_s": 58.0769522190094,
+        "tok_per_sec": 4.102697909791565,
+        "ms_per_tok": 243.7420502283105,
+        "draft_accepted": 0,
+        "draft_total": 0,
+        "draft_acc_rate": 0.0,
+        "generated_text": "The long-term potentiation (LTP) mediated by N-methyl-D-aspartate (NMDA) receptors is a complex process that involves a series of molecular and electrophysiological events. At the molecular level, LTP is characterized by an increase in the strength of synaptic transmission between neurons, which is thought to be a key mechanism underlying learning and memory.\n\nThe process begins with the activation of NMDA receptors, which are a subtype of glutamate receptor. When glutamate is released from the presynaptic neuron and binds to the NMDA receptor, it causes a rapid influx of calcium ions (Ca2+) into the postsynaptic neuron. This calcium influx triggers a series of downstream signaling events that ultimately lead to the strengthening of the synaptic connection.\n\nOne of the key steps in this process is the expulsion of magnesium ions (Mg2+) from the NMDA receptor. Magnesium ions are naturally bound to the NMDA receptor and serve as a negative regulator of the receptor's activity. When glutamate binds to the receptor, the magnesium ion is expelled,"
+      },
+      "C_Codice_Sintassi": {
+        "title": "Struttura e Codice Tecnico (Algoritmo Matematico)",
+        "tokens": 220,
+        "time_s": 57.48957943916321,
+        "tok_per_sec": 4.111456362888929,
+        "ms_per_tok": 243.22281735159817,
+        "draft_accepted": 0,
+        "draft_total": 0,
+        "draft_acc_rate": 0.0,
+        "generated_text": "Here is the implementation of the `PicardWavefrontContraction` class in Python:\n```python\nimport numpy as np\nfrom typing import Callable, Tuple\n\nclass PicardWavefrontContraction:\n    \"\"\"\n    Simulates the Picard-Lindelof iteration for solving ordinary differential equations (ODEs).\n\n    Attributes:\n        - func: The ODE function, which takes in the current state vector and returns the derivative.\n        - x0: The initial condition vector.\n        - tol: The tolerance for the iteration.\n        - max_iter: The maximum number of iterations.\n        - verbose: Whether to print iteration progress.\n\n    Methods:\n        - solve: Runs the Picard-Lindelof iteration to solve the ODE.\n    \"\"\"\n\n    def __init__(self, func: Callable[[np.ndarray], np.ndarray], x0: np.ndarray, tol: float = 1e-6, max_iter: int = 100, verbose: bool = False):\n        \"\"\"\n        Initializes the PicardWavefrontContraction object.\n\n        Args:\n            func: The O"
+      }
+    }
+  },
+  "4_Wavefront_K4": {
+    "name": "+ Wavefront Engine K=4 (All Prior Opts)",
+    "tasks": {
+      "A_Logica": {
+        "title": "Logica e Deduzione (Indovinello dei Tre Scrigni)",
+        "tokens": 220,
+        "time_s": 51.752450704574585,
+        "tok_per_sec": 5.002479539516048,
+        "ms_per_tok": 199.9008675799087,
+        "draft_accepted": 52,
+        "draft_total": 100,
+        "draft_acc_rate": 52.0,
+        "generated_text": "Che bel problema! Sono pronto a dimostrare la soluzione step by step.\n\nSiano A, B e C le affermazioni relative ai tre scrigni d'Oro, d'Argento e di Piombo, rispettivamente.\n\nDopo aver analizzato le affermazioni, possiamo notare che solo una di esse è vera, mentre le altre due sono false.\n\nInnanzitutto, consideriamo l'asserzione del Scrigno d'Oro: \"Il tesoro si trova qui dentro.\" Se questa affermazione fosse vera, allora il tesoro si troverebbe nel Scrigno d'Oro. In questo caso, l'asserzione del Scrigno d'Argento, \"Il tesoro non si trova qui dentro\", sarebbe falsa, poiché il tesoro si troverebbe effettivamente nel Scrigno d'Oro.\n\nTuttavia, l'asserzione del Scrigno di Piombo, \"Il tesoro non si"
+      },
+      "B_Neuroscienze": {
+        "title": "Spiegazione Scientifica (Neurodinamica Sinaptica)",
+        "tokens": 220,
+        "time_s": 55.680859088897705,
+        "tok_per_sec": 4.296896138055702,
+        "ms_per_tok": 232.72612785388125,
+        "draft_accepted": 18,
+        "draft_total": 76,
+        "draft_acc_rate": 23.684210526315788,
+        "generated_text": "The long-term potentiation (LTP) mediated by N-methyl-D-aspartate (NMDA) receptors is a complex process that involves a series of molecular and electrophysiological events. At the molecular level, LTP is characterized by an increase in the strength of synaptic transmission between neurons, which is thought to be a key mechanism underlying learning and memory.\n\nThe process begins with the activation of NMDA receptors, which are a subtype of glutamate receptor. When glutamate is released from the presynaptic neuron and binds to the NMDA receptor, it causes a rapid influx of calcium ions (Ca2+) into the postsynaptic neuron. This calcium influx triggers a series of downstream signaling events that ultimately lead to the strengthening of the synaptic connection.\n\nOne of the key steps in this process is the expulsion of magnesium ions (Mg2+) from the NMDA receptor. Magnesium ions are naturally bound to the NMDA receptor and serve as a negative regulator of the receptor's activity. When glutamate binds to the receptor, the magnesium ion is expelled,"
+      },
+      "C_Codice_Sintassi": {
+        "title": "Struttura e Codice Tecnico (Algoritmo Matematico)",
+        "tokens": 220,
+        "time_s": 53.975184202194214,
+        "tok_per_sec": 4.409407218622437,
+        "ms_per_tok": 226.78785388127855,
+        "draft_accepted": 24,
+        "draft_total": 85,
+        "draft_acc_rate": 28.235294117647058,
+        "generated_text": "Here is the implementation of the `PicardWavefrontContraction` class in Python:\n```python\nimport numpy as np\nfrom typing import Callable, Tuple\n\nclass PicardWavefrontContraction:\n    \"\"\"\n    Simulates the Picard-Lindelof iteration for solving ordinary differential equations (ODEs).\n\n    Attributes:\n        - func: The ODE function, which takes in the current state vector and returns the derivative.\n        - x0: The initial condition vector.\n        - tol: The tolerance for the iteration.\n        - max_iter: The maximum number of iterations.\n        - verbose: Whether to print iteration progress.\n\n    Methods:\n        - solve: Runs the Picard-Lindelof iteration to solve the ODE.\n    \"\"\"\n\n    def __init__(self, func: Callable[[np.ndarray], np.ndarray], x0: np.ndarray, tol: float = 1e-6, max_iter: int = 100, verbose: bool = False):\n        \"\"\"\n        Initializes the PicardWavefrontContraction object.\n\n        Args:\n            func: The O"
+      }
+    }
+  },
+  "5_Deep_Wavefront_K6": {
+    "name": "+ Deep Wavefront Engine K=6 (All Prior Opts)",
+    "tasks": {
+      "A_Logica": {
+        "title": "Logica e Deduzione (Indovinello dei Tre Scrigni)",
+        "tokens": 220,
+        "time_s": 88.39505362510681,
+        "tok_per_sec": 2.7300329503757794,
+        "ms_per_tok": 366.2959452054795,
+        "draft_accepted": 53,
+        "draft_total": 119,
+        "draft_acc_rate": 44.537815126050425,
+        "generated_text": "Che bel problema! Sono pronto a dimostrare la soluzione step by step.\n\nSiano A, B e C le affermazioni relative ai tre scrigni d'Oro, d'Argento e di Piombo, rispettivamente.\n\nDopo aver analizzato le affermazioni, possiamo notare che solo una di esse è vera, mentre le altre due sono false.\n\nInnanzitutto, consideriamo l'asserzione del Scrigno d'Oro: \"Il tesoro si trova qui dentro.\" Se questa affermazione fosse vera, allora il tesoro si troverebbe nel Scrigno d'Oro. In questo caso, l'asserzione del Scrigno d'Argento, \"Il tesoro non si trova qui dentro\", sarebbe falsa, poiché il tesoro si troverebbe effettivamente nel Scrigno d'Oro.\n\nTuttavia, l'asserzione del Scrigno di Piombo, \"Il tesoro non si"
+      }
+    }
+  },
+  "6_Ultra_Wavefront_K8": {
+    "name": "+ Ultra-Deep Wavefront Engine K=8 (All Prior Opts)",
+    "tasks": {}
+  },
+  "7_Tree_Branching_Wavefront": {
+    "name": "+ Tree-Branching Speculation (Albero di Ipotesi)",
+    "tasks": {
+      "A_Logica": {
+        "title": "Logica e Deduzione (Indovinello dei Tre Scrigni)",
+        "tokens": 220,
+        "time_s": 111.34870481491089,
+        "tok_per_sec": 2.226142039328266,
+        "ms_per_tok": 449.20763470319633,
+        "draft_accepted": 52,
+        "draft_total": 100,
+        "draft_acc_rate": 52.0,
+        "generated_text": "Che bel problema! Sono pronto a dimostrare la soluzione step by step.\n\nSiano A, B e C le affermazioni relative ai tre scrigni d'Oro, d'Argento e di Piombo, rispettivamente.\n\nDopo aver analizzato le affermazioni, possiamo notare che solo una di esse è vera, mentre le altre due sono false.\n\nInnanzitutto, consideriamo l'asserzione del Scrigno d'Oro: \"Il tesoro si trova qui dentro.\" Se questa affermazione fosse vera, allora il tesoro si troverebbe nel Scrigno d'Oro. In questo caso, l'asserzione del Scrigno d'Argento, \"Il tesoro non si trova qui dentro\", sarebbe falsa, poiché il tesoro si troverebbe effettivamente nel Scrigno d'Oro.\n\nTuttavia, l'asserzione del Scrigno di Piombo, \"Il tesoro non si"
+      },
+      "C_Codice_Sintassi": {
+        "title": "Struttura e Codice Tecnico (Algoritmo Matematico)",
+        "tokens": 220,
+        "time_s": 118.2944130897522,
+        "tok_per_sec": 2.2593719600034214,
+        "ms_per_tok": 442.6008721461187,
+        "draft_accepted": 24,
+        "draft_total": 85,
+        "draft_acc_rate": 28.235294117647058,
+        "generated_text": "Here is the implementation of the `PicardWavefrontContraction` class in Python:\n```python\nimport numpy as np\nfrom typing import Callable, Tuple\n\nclass PicardWavefrontContraction:\n    \"\"\"\n    Simulates the Picard-Lindelof iteration for solving ordinary differential equations (ODEs).\n\n    Attributes:\n        - func: The ODE function, which takes in the current state vector and returns the derivative.\n        - x0: The initial condition vector.\n        - tol: The tolerance for the iteration.\n        - max_iter: The maximum number of iterations.\n        - verbose: Whether to print iteration progress.\n\n    Methods:\n        - solve: Runs the Picard-Lindelof iteration to solve the ODE.\n    \"\"\"\n\n    def __init__(self, func: Callable[[np.ndarray], np.ndarray], x0: np.ndarray, tol: float = 1e-6, max_iter: int = 100, verbose: bool = False):\n        \"\"\"\n        Initializes the PicardWavefrontContraction object.\n\n        Args:\n            func: The O"
+      }
+    }
+  }
+}

@@ -1,0 +1,4 @@
+FROM "C:\Users\Umberto\synaptic-fold-v2\models\llama3_cortical_pruned.gguf"
+PARAMETER num_thread 8
+PARAMETER temperature 0.2
+PARAMETER top_k 24

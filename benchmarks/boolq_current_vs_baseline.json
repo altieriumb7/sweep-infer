@@ -1,0 +1,220 @@
+{
+  "samples_evaluated": 10,
+  "baseline_accuracy_pct": 50.0,
+  "current_accuracy_pct": 80.0,
+  "baseline_avg_time_s": 93.14,
+  "current_avg_time_s": 10.501154327392578,
+  "overall_speedup": 8.869501113514874,
+  "detailed_results": [
+    {
+      "idx": 8,
+      "question": "can u drive in canada with us license",
+      "target": true,
+      "historical_baseline": {
+        "pred": false,
+        "target": true,
+        "correct": false,
+        "elapsed_s": 60.8
+      },
+      "current_solution": {
+        "pred": false,
+        "is_correct": false,
+        "response_text": "No, according to the passage, you need additional documents (registration and insurance) besides a US license to drive in Canada.",
+        "elapsed_s": 11.835213661193848,
+        "pred_ms_per_tok": 264.35256000000004,
+        "draft_accepted": 0,
+        "draft_total": 4,
+        "speedup_vs_baseline": 5.1372118611897495
+      }
+    },
+    {
+      "idx": 94,
+      "question": "is anne with an e filmed on pei",
+      "target": true,
+      "historical_baseline": {
+        "pred": false,
+        "target": true,
+        "correct": false,
+        "elapsed_s": 68.2
+      },
+      "current_solution": {
+        "pred": true,
+        "is_correct": true,
+        "response_text": "Yes, the series is filmed partially on Prince Edward Island.",
+        "elapsed_s": 5.7078492641448975,
+        "pred_ms_per_tok": 249.82041666666666,
+        "draft_accepted": 0,
+        "draft_total": 0,
+        "speedup_vs_baseline": 11.948458490032875
+      }
+    },
+    {
+      "idx": 67,
+      "question": "can you get the death penalty as a minor",
+      "target": false,
+      "historical_baseline": {
+        "pred": false,
+        "target": false,
+        "correct": true,
+        "elapsed_s": 77.3
+      },
+      "current_solution": {
+        "pred": false,
+        "is_correct": true,
+        "response_text": "No, according to the passage, the U.S. Supreme Court banned capital punishment for juveniles in 2005.",
+        "elapsed_s": 9.349406957626343,
+        "pred_ms_per_tok": 255.57875,
+        "draft_accepted": 0,
+        "draft_total": 0,
+        "speedup_vs_baseline": 8.26790408742943
+      }
+    },
+    {
+      "idx": 88,
+      "question": "is there a movie with 0 on rotten tomatoes",
+      "target": true,
+      "historical_baseline": {
+        "pred": false,
+        "target": true,
+        "correct": false,
+        "elapsed_s": 76.1
+      },
+      "current_solution": {
+        "pred": true,
+        "is_correct": true,
+        "response_text": "Yes, there are movies with a 0% rating on Rotten Tomatoes.",
+        "elapsed_s": 7.953742027282715,
+        "pred_ms_per_tok": 259.0585294117647,
+        "draft_accepted": 0,
+        "draft_total": 0,
+        "speedup_vs_baseline": 9.567823514889444
+      }
+    },
+    {
+      "idx": 39,
+      "question": "is there a sequel to the movie the golden compass",
+      "target": false,
+      "historical_baseline": {
+        "pred": false,
+        "target": false,
+        "correct": true,
+        "elapsed_s": 78.1
+      },
+      "current_solution": {
+        "pred": false,
+        "is_correct": true,
+        "response_text": "No, according to Philip Pullman's statement, there would not be any sequels made due to the disappointing sales in the United States.",
+        "elapsed_s": 10.707091093063354,
+        "pred_ms_per_tok": 253.901,
+        "draft_accepted": 0,
+        "draft_total": 0,
+        "speedup_vs_baseline": 7.294231394986215
+      }
+    },
+    {
+      "idx": 50,
+      "question": "can an african team win the world cup",
+      "target": true,
+      "historical_baseline": {
+        "pred": false,
+        "target": true,
+        "correct": false,
+        "elapsed_s": 77.3
+      },
+      "current_solution": {
+        "pred": true,
+        "is_correct": true,
+        "response_text": "Yes.",
+        "elapsed_s": 4.276119709014893,
+        "pred_ms_per_tok": 267.4945,
+        "draft_accepted": 0,
+        "draft_total": 0,
+        "speedup_vs_baseline": 18.077136577125415
+      }
+    },
+    {
+      "idx": 43,
+      "question": "is pureed tomatoes the same as tomato sauce",
+      "target": false,
+      "historical_baseline": {
+        "pred": false,
+        "target": false,
+        "correct": true,
+        "elapsed_s": 92.0
+      },
+      "current_solution": {
+        "pred": false,
+        "is_correct": true,
+        "response_text": "No, according to the passage, tomato purée has a thicker consistency and a deeper flavor than tomato sauce.",
+        "elapsed_s": 9.683780670166016,
+        "pred_ms_per_tok": 257.9231363636364,
+        "draft_accepted": 0,
+        "draft_total": 0,
+        "speedup_vs_baseline": 9.500421698256284
+      }
+    },
+    {
+      "idx": 61,
+      "question": "has no 1 court at wimbledon got a roof",
+      "target": false,
+      "historical_baseline": {
+        "pred": false,
+        "target": false,
+        "correct": true,
+        "elapsed_s": 79.3
+      },
+      "current_solution": {
+        "pred": false,
+        "is_correct": true,
+        "response_text": "No, according to the passage, the retractable roof over No.1 Court at Wimbledon was not yet built as of 2013 and was expected to be completed by",
+        "elapsed_s": 12.392905950546265,
+        "pred_ms_per_tok": 259.08494117647064,
+        "draft_accepted": 0,
+        "draft_total": 0,
+        "speedup_vs_baseline": 6.398822061302301
+      }
+    },
+    {
+      "idx": 73,
+      "question": "did to kill a mockingbird win an academy award",
+      "target": true,
+      "historical_baseline": {
+        "pred": false,
+        "target": true,
+        "correct": false,
+        "elapsed_s": 93.0
+      },
+      "current_solution": {
+        "pred": true,
+        "is_correct": true,
+        "response_text": "Yes, the film \"To Kill a Mockingbird\" won three Academy Awards.",
+        "elapsed_s": 8.342767715454102,
+        "pred_ms_per_tok": 259.18776470588233,
+        "draft_accepted": 0,
+        "draft_total": 0,
+        "speedup_vs_baseline": 11.147379763160282
+      }
+    },
+    {
+      "idx": 0,
+      "question": "does ethanol take more energy make that produces",
+      "target": false,
+      "historical_baseline": {
+        "pred": false,
+        "target": false,
+        "correct": true,
+        "elapsed_s": 229.3
+      },
+      "current_solution": {
+        "pred": true,
+        "is_correct": false,
+        "response_text": "Yes, according to the passage, ethanol production requires more energy than the energy it produces, as indicated by the energy balance estimates.",
+        "elapsed_s": 24.76266622543335,
+        "pred_ms_per_tok": 284.54588461538464,
+        "draft_accepted": 0,
+        "draft_total": 12,
+        "speedup_vs_baseline": 9.259907552462568
+      }
+    }
+  ]
+}

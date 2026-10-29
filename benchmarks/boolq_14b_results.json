@@ -1,0 +1,88 @@
+{
+  "model": "Qwen2.5-14B-Instruct",
+  "accuracy": 90.0,
+  "avg_elapsed_s": 7.437891435623169,
+  "total_elapsed_s": 74.37891435623169,
+  "samples": {
+    "8": {
+      "question": "can u drive in canada with us license",
+      "target": true,
+      "raw_pred": "No",
+      "pred": false,
+      "correct": false,
+      "elapsed_s": 5.94
+    },
+    "94": {
+      "question": "is anne with an e filmed on pei",
+      "target": true,
+      "raw_pred": "Yes",
+      "pred": true,
+      "correct": true,
+      "elapsed_s": 4.51
+    },
+    "67": {
+      "question": "can you get the death penalty as a minor",
+      "target": false,
+      "raw_pred": "No",
+      "pred": false,
+      "correct": true,
+      "elapsed_s": 5.49
+    },
+    "88": {
+      "question": "is there a movie with 0 on rotten tomatoes",
+      "target": true,
+      "raw_pred": "Yes",
+      "pred": true,
+      "correct": true,
+      "elapsed_s": 5.3
+    },
+    "39": {
+      "question": "is there a sequel to the movie the golden compass",
+      "target": false,
+      "raw_pred": "No",
+      "pred": false,
+      "correct": true,
+      "elapsed_s": 5.87
+    },
+    "50": {
+      "question": "can an african team win the world cup",
+      "target": true,
+      "raw_pred": "Yes",
+      "pred": true,
+      "correct": true,
+      "elapsed_s": 5.77
+    },
+    "43": {
+      "question": "is pureed tomatoes the same as tomato sauce",
+      "target": false,
+      "raw_pred": "No",
+      "pred": false,
+      "correct": true,
+      "elapsed_s": 5.91
+    },
+    "61": {
+      "question": "has no 1 court at wimbledon got a roof",
+      "target": false,
+      "raw_pred": "No",
+      "pred": false,
+      "correct": true,
+      "elapsed_s": 5.87
+    },
+    "73": {
+      "question": "did to kill a mockingbird win an academy award",
+      "target": true,
+      "raw_pred": "Yes",
+      "pred": true,
+      "correct": true,
+      "elapsed_s": 6.25
+    },
+    "0": {
+      "question": "does ethanol take more energy make that produces",
+      "target": false,
+      "raw_pred": "No",
+      "pred": false,
+      "correct": true,
+      "elapsed_s": 23.48
+    }
+  }
+}
