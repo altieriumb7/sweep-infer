@@ -1,0 +1,26 @@
+{
+  "Tier 1 (Bassa Entropia - Codice e JSON)": {
+    "avg_baseline_tok_s": 144.20000000000002,
+    "runs": [
+      142.4,
+      147.3,
+      142.9
+    ]
+  },
+  "Tier 2 (Media Entropia - Matematica e Logica)": {
+    "avg_baseline_tok_s": 143.46666666666667,
+    "runs": [
+      142.6,
+      141.0,
+      146.8
+    ]
+  },
+  "Tier 3 (Alta Entropia - Scrittura Creativa e Aperta)": {
+    "avg_baseline_tok_s": 141.9,
+    "runs": [
+      142.6,
+      141.0,
+      142.1
+    ]
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "hardware": {
+    "gpu": "NVIDIA GeForce RTX 5070 Ti",
+    "architecture": "Blackwell SM 12.0",
+    "vram_capacity_gb": 16,
+    "vram_type": "GDDR7 (735 GB/s)",
+    "cpu": "Intel Core i5-14600KF (14 Cores / 20 Threads)"
+  },
+  "model": {
+    "name": "Meta-Llama-3-8B-Instruct",
+    "quantization": "Q4_K_M",
+    "offload": "100% VRAM (32/32 layers on CUDA0)"
+  },
+  "academic_domains": {
+    "GSM8K": {
+      "baseline_tps": 148.2212770404931,
+      "sweep_tps": 149.76294129156784,
+      "speedup": 1.0104010995037747,
+      "acceptance_rate": 0.46101845213609927,
+      "invariance_pct": 88.0,
+      "num_samples": 25
+    },
+    "HumanEval": {
+      "baseline_tps": 148.47612482914002,
+      "sweep_tps": 178.31382226501978,
+      "speedup": 1.2009595648473161,
+      "acceptance_rate": 0.8233885558885558,
+      "invariance_pct": 92.0,
+      "num_samples": 25
+    },
+    "BoolQ": {
+      "baseline_tps": 144.81166349819046,
+      "sweep_tps": 159.5819564661353,
+      "speedup": 1.101996569966406,
+      "acceptance_rate": 0.7261614593136332,
+      "invariance_pct": 96.0,
+      "num_samples": 50
+    }
+  },
+  "context_scaling": {
+    "128": {
+      "prompt_length": 64,
+      "baseline_tps": 146.52710014591867,
+      "sweep_tps": 237.81519830954605,
+      "speedup": 1.6230117027684186,
+      "alpha": 1.0
+    },
+    "512": {
+      "prompt_length": 448,
+      "baseline_tps": 144.62855827792782,
+      "sweep_tps": 256.29207971938945,
+      "speedup": 1.7720710402635806,
+      "alpha": 1.0
+    },
+    "1024": {
+      "prompt_length": 960,
+      "baseline_tps": 140.8833969932138,
+      "sweep_tps": 252.5299544754332,
+      "speedup": 1.7924749109193985,
+      "alpha": 0.96875
+    },
+    "2048": {
+      "prompt_length": 1984,
+      "baseline_tps": 135.99484246319224,
+      "sweep_tps": 241.8013593041512,
+      "speedup": 1.7780185992685427,
+      "alpha": 1.0
+    },
+    "3800": {
+      "prompt_length": 3736,
+      "baseline_tps": 129.7660676303926,
+      "sweep_tps": 233.1284589257744,
+      "speedup": 1.7965286548544006,
+      "alpha": 1.0
+    }
+  },
+  "power_telemetry": {
+    "baseline": {
+      "tps": 145.51004660587083,
+      "avg_power_watts": 248.37153846153848,
+      "avg_temp_c": 75.61538461538461,
+      "joules_per_token": 1.7069030232275215
+    },
+    "sweep": {
+      "tps": 148.23603600542245,
+      "avg_power_watts": 100.63499999999999,
+      "avg_temp_c": 69.25,
+      "joules_per_token": 0.678883507086757
+    },
+    "energy_reduction_pct": 60.227177651658224
+  }
+}
