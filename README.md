@@ -108,8 +108,8 @@ This produces `libsweep.so` on Linux/Jetson and `sweep.dll` on Windows.
 
 ### 1. Installation
 ```bash
-git clone https://github.com/altieriumb7/synaptic-fold.git sweep
-cd sweep
+git clone https://github.com/altieriumb7/sweep-infer.git
+cd sweep-infer
 pip install -e .
 ```
 
