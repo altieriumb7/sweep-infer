@@ -9,6 +9,7 @@ import os
 import sys
 import time
 import glob
+import numpy as np
 from typing import List, Dict, Any, Generator, Tuple, Optional
 
 # Locate llama.cpp shared libraries
@@ -25,7 +26,7 @@ def find_llama_library() -> Tuple[Optional[ctypes.CDLL], Optional[ctypes.CDLL]]:
     libllama = None
     libggml = None
     
-    lib_names = ["libllama.so", "llama.dll", "libllama.dylib"]
+    lib_names = ["libllama.so", "llama.dll", "libllama.dll", "libllama.dylib"]
     ggml_names = ["libggml.so", "ggml.dll", "libggml.dylib"]
 
     for d in possible_dirs:
@@ -42,6 +43,9 @@ def find_llama_library() -> Tuple[Optional[ctypes.CDLL], Optional[ctypes.CDLL]]:
                         p_ggml = os.path.join(d, g_name)
                         if os.path.exists(p_ggml):
                             libggml = ctypes.CDLL(p_ggml)
+                            if hasattr(libggml, 'ggml_backend_load_all_from_path'):
+                                libggml.ggml_backend_load_all_from_path.argtypes = [ctypes.c_char_p]
+                                libggml.ggml_backend_load_all_from_path(d.encode('utf-8'))
                             break
                     libllama = ctypes.CDLL(p_llama)
                     libllama.llama_backend_init()
@@ -51,7 +55,7 @@ def find_llama_library() -> Tuple[Optional[ctypes.CDLL], Optional[ctypes.CDLL]]:
     return None, None
 
 class ModelParamsBuf(ctypes.Structure):
-    _fields_ = [('data', ctypes.c_uint8 * 128)]
+    _fields_ = [('data', ctypes.c_uint8 * 512)]
 
 class CtxBuf(ctypes.Structure):
     _fields_ = [('ints', ctypes.c_int32 * 64)]
