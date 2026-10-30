@@ -1,0 +1,194 @@
+{
+  "project_metadata": {
+    "name": "SWEEP",
+    "full_title": "Single-pass Wavefront Entropy-gated Execution Pipeline",
+    "author_and_inventor": "Umberto Altieri",
+    "repository_url": "https://github.com/umbertoaltieri/sweep",
+    "version": "1.0.0",
+    "license": "MIT",
+    "creation_timestamp": "2026-10-30T02:00:00Z",
+    "last_updated": "2026-10-30T02:00:00Z"
+  },
+  "target_models": [
+    {
+      "model_id": "Meta-Llama-3-8B-Instruct",
+      "parameter_count": "8.03B",
+      "quantization": "Q4_K_M (4.92 GB)",
+      "pruning_ratio": 0.0,
+      "surrogate_model": false
+    },
+    {
+      "model_id": "Qwen2.5-7B-Instruct",
+      "parameter_count": "7.61B",
+      "quantization": "Q4_K_M (4.68 GB)",
+      "pruning_ratio": 0.0,
+      "surrogate_model": false
+    }
+  ],
+  "empirical_benchmarks": {
+    "desktop_cpu": {
+      "processor": "Intel Core i5-14600KF (14 Cores / 20 Threads)",
+      "ram_subsystem": "Dual-Channel DDR5-5600 (30.2 GB/s sustained GEMV)",
+      "baseline_tps": 4.19,
+      "baseline_ms_per_tok": 238.6,
+      "sweep_tps": 10.58,
+      "sweep_ms_per_tok": 94.5,
+      "speedup_factor": 2.52,
+      "wavefront_k": 6,
+      "entropy_kernel_overhead_us": 6.72,
+      "total_algorithmic_overhead_pct": 0.09
+    },
+    "mobile_apu": {
+      "processor": "AMD Ryzen 7 7730U (8 Cores / 16 Threads, 15W TDP)",
+      "ram_subsystem": "Dual-Channel DDR4-3200 (18.38 GB/s sustained)",
+      "baseline_tps": 3.94,
+      "baseline_ms_per_tok": 253.5,
+      "sweep_tps": 12.67,
+      "sweep_ms_per_tok": 78.9,
+      "speedup_factor": 3.21,
+      "wavefront_k": 4
+    },
+    "discrete_gpu": {
+      "accelerator": "NVIDIA GeForce RTX 5070 Ti (16GB GDDR7, Blackwell SM 12.0)",
+      "vram_bandwidth_gbps": 735.0,
+      "humaneval_baseline_tps": 148.48,
+      "humaneval_sweep_tps": 178.31,
+      "humaneval_speedup": 1.20,
+      "peak_context_scaling_tps": 256.29,
+      "peak_context_speedup": 1.79,
+      "baseline_power_watts": 248.37,
+      "sweep_power_watts": 100.63,
+      "energy_reduction_pct": 60.23,
+      "cuda_warp_reduction_us": 12.9
+    },
+    "exact_invariance_evaluations": {
+      "total_evaluated_sequences": 406,
+      "bit_identical_matches": 406,
+      "invariance_percentage": 100.0,
+      "evaluated_datasets": ["GSM8K (25)", "HumanEval (25)", "BoolQ (50)", "PromptScaling (306)"]
+    }
+  },
+  "github_live_metrics": {
+    "stars": 0,
+    "forks": 0,
+    "watchers": 0,
+    "open_issues": 0,
+    "closed_issues": 0,
+    "open_pull_requests": 0,
+    "merged_pull_requests": 0,
+    "open_discussions": 0,
+    "total_releases": 1,
+    "last_sync_timestamp": null
+  },
+  "launch_channels": {
+    "reddit_local_llama": {
+      "platform": "Reddit",
+      "community": "r/LocalLLaMA",
+      "post_title": "[Release] SWEEP: Breaking the 10 tok/s CPU Memory Wall on unmodified Llama-3-8B without pruning or small draft models (Single-Pass Wavefront Speculation, 100% bit-invariant, MIT)",
+      "status": "staged_ready_for_review",
+      "target_submission_slot": "Launch Day 0 - 14:00 UTC",
+      "submission_url": null,
+      "author_review_confirmed": false,
+      "assets_required": [
+        "demo_side_by_side terminal screen recording (mp4/gif)",
+        "Latency vs Batch Wavefront Chart"
+      ]
+    },
+    "hacker_news": {
+      "platform": "Hacker News",
+      "feed": "Show HN",
+      "post_title": "Show HN: SWEEP – Amortizing LLM weight sweeps via single-pass wavefront speculation on CPUs and GPUs",
+      "status": "staged_ready_for_review",
+      "target_submission_slot": "Launch Day 0 - 15:30 UTC",
+      "submission_url": null,
+      "author_review_confirmed": false,
+      "assets_required": [
+        "GitHub repository public visibility",
+        "Fast documentation link"
+      ]
+    },
+    "twitter_x": {
+      "platform": "X (Twitter)",
+      "handle": "@umbertoaltieri",
+      "thread_parts": 3,
+      "status": "staged_ready_for_review",
+      "target_submission_slot": "Launch Day 0 - 14:15 UTC",
+      "tweet_url": null,
+      "author_review_confirmed": false,
+      "assets_required": [
+        "Terminal demo video clip (30s)",
+        "Benchmark comparison graphic"
+      ]
+    },
+    "llama_cpp_discussions": {
+      "platform": "GitHub Discussions",
+      "target_repo": "ggerganov/llama.cpp",
+      "discussion_category": "RFC / Architecture Discussion",
+      "discussion_title": "[RFC] In-Process Single-Pass Wavefront Speculation for Zero-Draft Acceleration on Bandwidth-Bound Backends",
+      "status": "staged_ready_for_review",
+      "target_submission_slot": "Launch Day 1 - 10:00 UTC",
+      "discussion_url": null,
+      "author_review_confirmed": false,
+      "assets_required": [
+        "C reference implementation in include/sweep.h",
+        "Benchmark reproduction instructions"
+      ]
+    }
+  },
+  "community_management_ops": {
+    "triage_sla_minutes": 120,
+    "heartbeat_cadence_minutes": 30,
+    "notification_channels": {
+      "local_workspace": true,
+      "daily_memory_log": true
+    },
+    "escalation_triggers": {
+      "critical_bug": "Immediate notification to author with stack trace and prompt reproducing the error",
+      "benchmark_reproduction_inquiry": "Provide command line reproduction script (scripts/demo_side_by_side.py and test_zero_penalty_speculation.py)",
+      "enterprise_inquiry": "Direct to Umberto Altieri for collaboration or custom integration",
+      "upstream_maintainer_response": "High-priority notification for llama.cpp / vLLM core developer interaction"
+    },
+    "objection_quick_index": {
+      "medusa_eagle_comparison": "community/FAQ_AND_REPLIES.md#question-1",
+      "1b_draft_failure_on_cpu": "community/FAQ_AND_REPLIES.md#question-2",
+      "10_tok_s_unpruned_i5": "community/FAQ_AND_REPLIES.md#question-3",
+      "bit_invariance_verification": "community/FAQ_AND_REPLIES.md#question-4",
+      "zero_penalty_rollback": "community/FAQ_AND_REPLIES.md#question-5",
+      "apple_silicon_support": "community/FAQ_AND_REPLIES.md#question-6",
+      "ollama_dropin_server": "community/FAQ_AND_REPLIES.md#question-7",
+      "licensing_mit": "community/FAQ_AND_REPLIES.md#question-8"
+    }
+  },
+  "launch_checklist": [
+    {
+      "id": "STEP-01",
+      "task": "Author publication-ready copy for r/LocalLLaMA, Hacker News, X/Twitter, llama.cpp Discussions",
+      "status": "COMPLETED",
+      "verified_file": "community/LAUNCH_PLAYBOOK.md"
+    },
+    {
+      "id": "STEP-02",
+      "task": "Author 8-point FAQ and objection-handling playbook",
+      "status": "COMPLETED",
+      "verified_file": "community/FAQ_AND_REPLIES.md"
+    },
+    {
+      "id": "STEP-03",
+      "task": "Create community tracker and operational metrics framework",
+      "status": "COMPLETED",
+      "verified_file": "community/COMMUNITY_TRACKER.json"
+    },
+    {
+      "id": "STEP-04",
+      "task": "Build side-by-side terminal demonstration animation script for screen recording",
+      "status": "IN_PROGRESS",
+      "verified_file": "scripts/demo_side_by_side.py"
+    },
+    {
+      "id": "STEP-05",
+      "task": "Present all drafts and assets to Umberto Altieri for explicit authorization prior to public distribution",
+      "status": "PENDING_AUTHOR_REVIEW",
+      "verified_file": null
+    }
+  ]
+}
