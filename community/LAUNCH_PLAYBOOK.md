@@ -33,8 +33,8 @@ Hey r/LocalLLaMA!
 
 I'm excited to open-source **SWEEP** (*Single-pass Wavefront Entropy-gated Execution Pipeline*), an inference architecture designed to solve the single greatest bottleneck in local LLM generation: **the CPU and edge memory wall**.
 
-GitHub: https://github.com/umbertoaltieri/sweep  
-Paper / Documentation: https://github.com/umbertoaltieri/sweep/docs
+GitHub: https://github.com/altieriumb7/sweep-infer  
+Paper / Documentation: https://github.com/altieriumb7/sweep-infer/blob/main/sweep_definitive_paper.pdf
 
 ---
 
@@ -88,8 +88,8 @@ All benchmarks were run on complete, unpruned foundation models (**Meta-Llama-3-
 You can install SWEEP directly from source:
 
 ```bash
-git clone https://github.com/umbertoaltieri/sweep.git
-cd sweep
+git clone https://github.com/altieriumb7/sweep-infer.git
+cd sweep-infer
 pip install -e .
 ```
 
@@ -159,7 +159,7 @@ Check it out, test it on your hardware, and let me know your thoughts or feedbac
 
 ### Post Metadata
 - **Title:** `Show HN: SWEEP – Amortizing LLM weight sweeps via single-pass wavefront speculation on CPUs and GPUs`
-- **Target URL:** `https://github.com/umbertoaltieri/sweep`
+- **Target URL:** `https://github.com/altieriumb7/sweep-infer`
 
 ### Submission Text / First Comment (Markdown)
 
@@ -168,8 +168,8 @@ Hi Hacker News,
 
 I'm Umberto Altieri, and today I'm releasing SWEEP (Single-pass Wavefront Entropy-gated Execution Pipeline), an open-source inference architecture for unmodified 7B/8B parameter models that tackles the core microarchitectural constraint of local LLMs: memory bandwidth saturation.
 
-Repo: https://github.com/umbertoaltieri/sweep
-Preprint / Technical Report: https://github.com/umbertoaltieri/sweep/docs
+Repo: https://github.com/altieriumb7/sweep-infer
+Preprint / Technical Report: https://github.com/altieriumb7/sweep-infer/blob/main/sweep_definitive_paper.pdf
 
 ### The Systems Bottleneck: Arithmetic Intensity in Autoregressive GEMV
 
@@ -258,8 +258,8 @@ The project is fully open source under the MIT license, includes a drop-in Ollam
 > 📊 Validated on 406 academic benchmarks (GSM8K, HumanEval, BoolQ) with 100% token-for-token equivalence.
 > 
 > Author: Umberto Altieri
-> 💻 GitHub: https://github.com/umbertoaltieri/sweep
-> 📄 Paper / Telemetry: https://github.com/umbertoaltieri/sweep/blob/main/docs/paper.pdf
+> 💻 GitHub: https://github.com/altieriumb7/sweep-infer
+> 📄 Paper / Telemetry: https://github.com/altieriumb7/sweep-infer/blob/main/sweep_definitive_paper.pdf
 > 
 > Star the repo and test it on your CPU/GPU rigs! ⭐
 

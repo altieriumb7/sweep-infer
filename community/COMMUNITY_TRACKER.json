@@ -3,7 +3,7 @@
     "name": "SWEEP",
     "full_title": "Single-pass Wavefront Entropy-gated Execution Pipeline",
     "author_and_inventor": "Umberto Altieri",
-    "repository_url": "https://github.com/umbertoaltieri/sweep",
+    "repository_url": "https://github.com/altieriumb7/sweep-infer",
     "version": "1.0.0",
     "license": "MIT",
     "creation_timestamp": "2026-10-30T02:00:00Z",
